@@ -1,0 +1,12 @@
+{
+    "id": 7,
+    "comp_name": "按钮",
+    "comp_code": "Button",
+    "comp_type": "basic",
+    "html_temp": "<button nz-button \r\n[nzType]=\"'<%=model_config.buttonType%>'\" \r\n[nzSize]=\"'<%=model_config.antSize%>'\"\r\n[nzShape]=\"'<%=model_config.btnSharp%>'\"\r\n>{{instanceHandler.Button_<%=index%>.name}}</button>",
+    "style_temp": null,
+    "script_temp_import": null,
+    "script_temp_attr": null,
+    "script_temp_func": null,
+    "script_temp_init": null
+}

@@ -1,0 +1,12 @@
+{
+    "id": 13,
+    "comp_name": "选择器",
+    "comp_code": "Select",
+    "comp_type": "basic",
+    "html_temp": "      <nz-select style=\"width: 120px;\" [(ngModel)]=\"selectedValue\" nzAllowClear nzPlaceHolder=\"Choose\">\r         <nz-option nzValue=\"jack\" nzLabel=\"Jack\"></nz-option>\r         <nz-option nzValue=\"lucy\" nzLabel=\"Lucy\"></nz-option>\r         <nz-option nzValue=\"disabled\" nzLabel=\"Disabled\" nzDisabled></nz-option>\r       </nz-select>",
+    "style_temp": null,
+    "script_temp_import": null,
+    "script_temp_attr": "    selectedValue = 'lucy';",
+    "script_temp_func": null,
+    "script_temp_init": null
+}

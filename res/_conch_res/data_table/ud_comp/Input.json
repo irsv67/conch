@@ -1,0 +1,12 @@
+{
+    "id": 12,
+    "comp_name": "输入框",
+    "comp_code": "Input",
+    "comp_type": "basic",
+    "html_temp": "<input nz-input placeholder=\"请输入\" [(ngModel)]=\"value\">\r ",
+    "style_temp": null,
+    "script_temp_import": null,
+    "script_temp_attr": "    value: string;",
+    "script_temp_func": null,
+    "script_temp_init": null
+}

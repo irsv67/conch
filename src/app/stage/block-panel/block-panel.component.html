@@ -1,0 +1,21 @@
+<div style="padding: 0 4px;">
+    <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">
+        <span style="margin-right: 42px;">区块</span>
+    </div>
+
+    <div style="padding: 8px; position: relative; height: 600px;" (click)="blankClick()">
+        <div *ngFor="let item of blockList" draggable="true" (dragstart)="dragstart($event, item)" class="comp-drag-item">
+            <div style="font-size: 26px; text-align: center;" (contextmenu)="rightClickNode($event, item)">
+                <i class="anticon anticon-credit-card"></i>
+            </div>
+            <div style="text-align: center;">
+                {{item.block_name}}
+            </div>
+        </div>
+
+        <div id="remove-block-menu" (click)="dropDownClick()" class="remove-block-menu">
+            <i class="anticon anticon-delete"></i>删除
+        </div>
+
+    </div>
+</div>

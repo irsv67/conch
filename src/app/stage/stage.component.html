@@ -1,0 +1,148 @@
+<div style="height: 100%;">
+
+    <div class="win-title">
+        <span>TD-可视化开发工具</span>
+        <div style="float: right;">
+            <span (click)="minWindow()" style="margin-right: 16px; font-size: 16px; color: #ffffff; cursor: pointer;">
+                <i class="anticon anticon-minus"></i>
+            </span>
+            <span *ngIf="false" (click)="maxWindow()" style="margin-right: 16px; font-size: 16px; color: #ffffff; cursor: pointer;">
+                <i class="anticon anticon-laptop"></i>
+            </span>
+            <span (click)="closeWindow()" style="margin-right: 16px; font-size: 16px; color: #ffffff; cursor: pointer;">
+                <i class="anticon anticon-close"></i>
+            </span>
+        </div>
+    </div>
+    <div style="background: #2185F0; height: 40px;">
+        <div class="header-icon">
+            <img src="./assets/favicon.ico"/>
+        </div>
+
+        <div class="header-btn" (click)="changeHeaderStatus('project')" [ngClass]="{'active': headerTabStatus == 'project'}">
+            <i class="anticon anticon-bars" style="margin-right: 4px;"></i>
+            项目
+        </div>
+        <div *ngIf="false" class="header-btn" (click)="changeHeaderStatus('template')" [ngClass]="{'active': headerTabStatus == 'template'}">
+            <i class="anticon anticon-credit-card" style="margin-right: 4px;"></i>
+            模板
+        </div>
+        <div class="header-btn" (click)="changeHeaderStatus('component')" [ngClass]="{'active': headerTabStatus == 'component'}">
+            <i class="anticon anticon-book" style="margin-right: 4px;"></i>
+            组件
+        </div>
+        <div *ngIf="false" class="header-btn" (click)="changeHeaderStatus('block')" [ngClass]="{'active': headerTabStatus == 'block'}">
+            <i class="anticon anticon-calendar" style="margin-right: 4px;"></i>
+            区块
+        </div>
+        <div *ngIf="false" class="header-btn" (click)="changeHeaderStatus('model-editor')" [ngClass]="{'active': headerTabStatus == 'model-editor'}">
+            <i class="anticon anticon-calendar" style="margin-right: 4px;"></i>
+            模型编辑
+        </div>
+        <div *ngIf="false" class="header-btn" (click)="changeHeaderStatus('module-tree')" [ngClass]="{'active': headerTabStatus == 'module-tree'}">
+            <i class="anticon anticon-calendar" style="margin-right: 4px;"></i>
+            组件结构
+        </div>
+
+        <div style="float: right; height: 40px; line-height: 40px;">
+            <nz-switch [(ngModel)]="controlPanel" nzSize="small" style="margin-right: 16px;"></nz-switch>
+        </div>
+        <div [ngClass]="{'c-hide': !controlPanel}" style="float: right; height: 40px; line-height: 40px;">
+            <span (click)="syncTable('ud_comp')" style="margin-right: 8px; cursor: pointer; color: #FFFFFF;">同步组件</span>
+            <span (click)="syncTable('ud_model')" style="margin-right: 8px; cursor: pointer; color: #FFFFFF;">同步模型</span>
+            <span (click)="getResourcePath()" style="margin-right: 8px; cursor: pointer; color: #FFFFFF;">资源目录</span>
+        </div>
+    </div>
+
+    <!--项目工具条-->
+    <app-toolbar-panel [ngClass]="{'c-hide': headerTabStatus != 'project'}" (savePageEmitter)="savePage()"></app-toolbar-panel>
+
+    <!--项目面板-->
+    <div class="bottom-all" [ngClass]="{'c-hide': headerTabStatus != 'project'}" style="height: calc(100% - 110px);">
+        <table class="main-table" style="width: 100%; height: 100%;">
+            <tr style="vertical-align: top;">
+                <td style="padding: 0; width: 40px; background-color: #FFFFFF; border-right: rgba(23,35,61,0.15) 1px solid;">
+                    <div *ngIf="scs.curProject && scs.isConch" class="left-panel-btn" (click)="chooseLeftPanel('project')" [ngClass]="{'active': scs.leftPanelActive == 'project'}">
+                        <i class="anticon anticon-bars"></i>
+                    </div>
+                    <div *ngIf="scs.curProject && scs.isConch" class="left-panel-btn" (click)="chooseLeftPanel('component');" [ngClass]="{'active': scs.leftPanelActive == 'component'}">
+                        <i class="anticon anticon-book"></i>
+                    </div>
+                    <div *ngIf="scs.curProject && scs.isConch" class="left-panel-btn" (click)="chooseLeftPanel('page_schema')" [ngClass]="{'active': scs.leftPanelActive == 'page_schema'}">
+                        <i class="anticon anticon-switcher"></i>
+                    </div>
+                    <div *ngIf="scs.curProject && scs.isConch" class="left-panel-btn" (click)="chooseLeftPanel('block')" [ngClass]="{'active': scs.leftPanelActive == 'block'}">
+                        <i class="anticon anticon-calendar"></i>
+                    </div>
+                    <div *ngIf="scs.curProject && !scs.isConch" class="left-panel-btn" (click)="chooseLeftPanel('router-module')" [ngClass]="{'active': scs.leftPanelActive == 'router-module'}">
+                        <i class="anticon anticon-compass"></i>
+                    </div>
+                </td>
+                <td style="padding: 0; width: 200px; background-color: #F8F8F9;">
+                    <app-project-panel [ngClass]="{'c-hide': scs.leftPanelActive != 'project' || !scs.curProject}"></app-project-panel>
+                    <app-component-panel [ngClass]="{'c-hide': scs.leftPanelActive != 'component' || !scs.curProject}"></app-component-panel>
+                    <div [ngClass]="{'c-hide': scs.leftPanelActive != 'page_schema' || !scs.curProject}" style="height: 600px;">
+                        <div style="padding: 0 4px;">
+                            <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">图层</div>
+                        </div>
+                        <div class="tree-base" style="padding: 0; height: calc(100% - 40px); overflow: auto; width: 198px;">
+                            <nz-tree #treeCom
+                                     [nzData]="scs.pageSchema"
+                                     [nzDraggable]="true"
+                                     (nzOnDrop)="dropInPageSchema($event)"
+                                     (nzClick)="chooseSchemaNode($event)"
+                                     (nzContextMenu)="rightClickNode($event,contextMenuTemp)"
+                            >
+                            </nz-tree>
+                        </div>
+                    </div>
+                    <app-block-panel [ngClass]="{'c-hide': scs.leftPanelActive != 'block' || !scs.curProject}"></app-block-panel>
+
+                    <ng-template #contextMenuTemp>
+                        <ul nz-menu nzInDropDown (nzClick)="dropDownClick($event)">
+                            <li nz-menu-item data-name="remove-item"><i class="anticon anticon-delete"></i>删除</li>
+                            <li nz-menu-item data-name="add-block"><i class="anticon anticon-save"></i>另存为</li>
+                        </ul>
+                    </ng-template>
+
+                    <app-router-panel [ngClass]="{'c-hide': scs.leftPanelActive != 'router-module' || !scs.curProject}"></app-router-panel>
+                </td>
+                <td style="padding: 20px; background: rgba(235,237,240,1); border-left: rgba(23,35,61,0.15) 1px solid; border-right: rgba(23,35,61,0.15) 1px solid;">
+                    <app-center-panel style="display: block; width: 100%; height: 100%;"></app-center-panel>
+                </td>
+                <td style="padding: 0; width: 260px; background-color: #F8F8F9">
+                    <app-property-panel></app-property-panel>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!--组件浏览-->
+    <div class="bottom-all" [ngClass]="{'c-hide': headerTabStatus != 'component'}" style="height: calc(100% - 65px);">
+        <table class="main-table" style="width: 100%; height: 100%;">
+            <tr style="vertical-align: top;">
+                <td style="padding: 0; width: 240px; background-color: #F8F8F9;">
+                    <div style="height: 600px; width: 240px;">
+                        <div style="padding: 0 4px;">
+                            <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">组件浏览</div>
+                        </div>
+                        <div class="tree-base" style="padding: 4px 8px; height: calc(100% - 40px); overflow: auto;">
+                            <nz-tree #treeCom2
+                                     [nzData]="compTypeTree"
+                                     (nzClick)="chooseCompTypeNode($event)"
+                            >
+                            </nz-tree>
+                        </div>
+                    </div>
+                </td>
+                <td style="padding: 20px; background: rgba(235,237,240,1); border-left: rgba(23,35,61,0.15) 1px solid; border-right: rgba(23,35,61,0.15) 1px solid;">
+                    <div style="width: 100%; height: 100%;">
+                        <div id="comp-view-panel" style="width: 100%; height: 100%; position: relative; overflow-y: auto; max-height: 720px;">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

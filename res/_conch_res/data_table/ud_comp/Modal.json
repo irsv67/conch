@@ -1,0 +1,12 @@
+{
+    "id": 15,
+    "comp_name": "对话框",
+    "comp_code": "Modal",
+    "comp_type": "basic",
+    "html_temp": "<button nz-button [nzType]=\"'primary'\" (click)=\"showModal()\"><span><%=model_config.name%></span></button>\r\n     <nz-modal [(nzVisible)]=\"isVisible\" nzTitle=\"<%=model_config.name%>\" (nzOnCancel)=\"handleCancel()\" (nzOnOk)=\"handleOk()\">\r\n \t\t<% model_data.formArray.forEach(function(column){ %>\r\n \t\t<div style=\"padding: 16px;\">\r\n \t\t\t<span><%=column.desc%>：</span>\r\n \t\t\t<input nz-input [(ngModel)]=\"formObj.<%=column.field%>\" placeholder=\"请输入\" style=\"width: 260px; margin-right: 8px;\">\r\n \t\t</div>\r\n \t\t<% }); %>\r\n     </nz-modal>",
+    "style_temp": null,
+    "script_temp_import": null,
+    "script_temp_attr": "  isVisible = false;\r\n  formObj:any = {};",
+    "script_temp_func": "  showModal(): void {\r\n    this.isVisible = true;\r\n  }\r\n\r\n  handleOk(): void {\r\n    console.log('Button ok clicked!');\r\n    this.isVisible = false;\r\n  }\r\n\r\n  handleCancel(): void {\r\n    console.log('Button cancel clicked!');\r\n    this.isVisible = false;\r\n  }",
+    "script_temp_init": null
+}

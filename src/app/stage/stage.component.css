@@ -1,0 +1,89 @@
+.win-title {
+    font-size: 14px;
+    color: #FFFFFF;
+
+    height: 25px;
+    background: #2185F0;
+    line-height: 25px;
+    text-align: center;
+}
+
+.header-icon {
+    float: left;
+    width: 140px;
+    height: 40px;
+    padding-left: 10px;
+}
+
+.header-btn {
+    float: left;
+    color: #FFFFFF;
+    margin-right: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 8px;
+}
+
+.header-btn.active {
+    border-bottom: #2de2c5 3px solid;
+}
+
+/deep/ .dom-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 100%;
+}
+
+/deep/ .dom-list .dom-item {
+    width: calc(25% - 32px);
+    height: 260px;
+    background: #FFFFFF;
+    margin: 16px;
+    border-radius: 10px;
+}
+
+/deep/ .dom-list .big-show {
+    width: calc(100% - 32px);
+    height: 400px;
+}
+
+/deep/ .dom-list .dom-item .dom-inner-title {
+    background: rgba(33, 133, 240, .5);
+    padding: 0 16px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 10px 10px 0 0;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+/deep/ .dom-list .dom-item .dom-inner-body {
+    padding: 16px;
+    height: calc(100% - 40px);
+    width: 100%;
+    overflow: auto;
+}
+
+/*============*/
+.left-panel-btn {
+    height: 40px;
+    padding: 5px 10px;
+    line-height: 30px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.left-panel-btn:hover {
+    background-color: rgba(23, 35, 61, 0.55);
+    color: #ffffff;
+}
+
+.left-panel-btn.active {
+    background-color: rgba(23, 35, 61, 0.55);
+    color: #ffffff;
+}
+
+/*============*/

@@ -1,0 +1,303 @@
+
+    :host {
+        display: block;
+        //margin: 16px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #edeef1 #e2e3e7 #d7d9dd #e2e3e7;
+        border-radius: 3px;
+        background-color: #ffffff;
+    }
+
+
+
+    /* icon */
+
+    .header:before {
+        font-family: "iconfont";
+        content: "\edea";
+    }
+
+    .base-property .title:before {
+        font-family: "anticon";
+        content: "\e62c";
+    }
+
+    .base-property .content .more:before {
+        font-family: "anticon";
+        content: "\e61d";
+    }
+
+    .base-property .content.more .more:before {
+        font-family: "anticon";
+        content: "\e61e";
+    }
+
+    .the-crowd .title:before {
+        font-family: "iconfont";
+        content: "\edea";
+    }
+
+    
+
+
+    /* .header */
+
+    .header {
+        position: relative;
+        height: 77px;
+        margin-left: 16px;
+        margin-right: 16px;
+        border-bottom: 1px solid #e7e9eb;
+    }
+
+    .header:before{
+        position: absolute;
+        left: -4px;
+        top: 17px;
+        font-size: 48px;
+        line-height: 48px;
+        color: #2d8cf0;
+    }
+
+    .header .major {
+        position: absolute;
+        left: 64px;
+        top: 42px;
+        font-size: 18px;
+        line-height: 18px;
+        color: #17233d;
+    }
+
+    .header .minor {
+        position: absolute;
+        left: 64px;
+        top: 22px;
+        font-size: 12px;
+        line-height: 12px;
+        color: #515a6e;
+    }
+
+
+
+    /* .base-property */
+
+    .base-property {
+        position: relative;
+        margin-left: 16px;
+        margin-right: 16px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px dashed #dedfe3;
+    }
+
+    .base-property .title {
+        height: 28px;
+        padding-left: 28px;
+        padding-top: 7px;
+        font-size: 12px;
+        line-height: 12px;
+        color: #17233d;
+    }
+
+    .base-property .title:before {
+        position: absolute;
+        left: 0;
+        top: 16px;
+        font-size: 18px;
+        line-height: 18px;
+        color: #808695;
+    }
+
+    .base-property .content {
+        overflow: hidden;
+        padding-left: 28px;
+        padding-right: 66px;
+        position: relative;
+    }
+
+    .base-property .content .item {
+        overflow: hidden;
+        float: left;
+        width: 25%;
+        height: 28px;
+        padding-right: 16px;
+        padding-top: 7px;
+        font-size: 12px;
+        line-height: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: default;
+        color: #484d40;
+    }
+
+    .base-property .content .item:before {
+        content: attr(data-name);
+        color: #808694;
+    }
+
+    .base-property .content .more 
+    {
+        position: absolute;
+        right: 0;
+        top: 34px;
+        font-size: 12px;
+        line-height: 12px;
+        color: #2d8cf0;
+    }
+
+    .the-crowd .content .more, .the-label .content .more, .the-invalidLabel .content .more{
+        position: absolute;
+        right: 0;
+        top: 46px;
+        font-size: 12px;
+        line-height: 12px;
+        color: #2d8cf0;
+    }
+
+    .base-property .content .more:before {
+        position: relative;
+        left: -3px;
+    }
+
+    /* .base-property.more */
+
+    .base-property .content {
+        max-height: 56px;
+    }
+
+    .base-property .content.more,.the-crowd .content.more,.the-label .content.more,.the-invalidLabel .content.more  {
+        max-height: none;
+    }
+
+
+
+    /* .the-crowd */
+
+    .the-crowd {
+        position: relative;
+        margin-left: 16px;
+        margin-right: 16px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px dashed #dedfe3;
+    }
+
+    .the-crowd .title {
+        height: 32px;
+        padding-left: 28px;
+        padding-top: 7px;
+        font-size: 12px;
+        line-height: 12px;
+        color: #17233d;
+    }
+
+    .the-crowd .title:before {
+        position: absolute;
+        left: 0;
+        top: 16px;
+        font-size: 20px;
+        line-height: 20px;
+        color: #808695;
+    }
+
+    .the-crowd .content {
+        overflow: hidden;
+        padding-left: 24px;
+        position: relative;
+    }
+    .the-crowd .content .item-box,.the-label .content .item-box,.the-invalidLabel .content .item-box{
+        float: left;
+        padding: 4px 4px 4px 4px;
+        width: 10%;
+    }
+    .the-crowd .content .item {
+        padding: 6px 8px;
+        border-radius: 2px;
+        font-size: 12px;
+        line-height: 12px;
+        cursor: default;
+        color: #ffffff;
+        background-color: #8c9fc4;
+        width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+   /* .the-crowd */
+    .the-label ,.the-invalidLabel {
+        position: relative;
+        margin-left: 16px;
+        margin-right: 16px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .the-label .title, .the-invalidLabel .title{
+        height: 32px;
+        padding-left: 28px;
+        padding-top: 7px;
+        font-size: 12px;
+        line-height: 12px;
+        color: #17233d;
+    }
+
+    .the-label .title .anticon {
+        position: absolute;
+        left: 0;
+        top: 16px;
+        font-size: 12px;
+        width:17px;
+        height:17px;
+        line-height: 20px;
+        color: #fff;
+        background-color: #808695;
+        border-radius:20px;
+
+    }
+    .the-crowd .content,.the-label .content,.the-invalidLabel .content{
+        overflow: hidden;
+        max-height: 34px;
+        padding-left: 24px;
+        padding-right: 66px;
+        max-height: 72px;
+        position: relative;
+    }
+
+    .the-label .content .item {
+        padding: 6px 8px;
+        border-radius: 2px;
+        font-size: 12px;
+        line-height: 12px;
+        cursor: default;
+        color: #ffffff;
+        background-color: #8c9fc4;
+        border: 1px solid #ccc;
+        width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+    .the-invalidLabel { 
+        padding-top:0;
+    }
+
+    .the-invalidLabel .content .item {
+        padding: 6px 8px;
+        border-radius: 2px;
+        font-size: 12px;
+        line-height: 12px;
+        cursor: default;
+        color: #999;
+        background-color: #eee;
+        border: 1px solid #ccc;
+        width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }

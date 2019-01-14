@@ -1,0 +1,103 @@
+[
+    {
+        "title": "布局管理",
+        "key": "root",
+        "expanded": true,
+        "icon": "anticon anticon-file",
+        "children": [
+            {
+                "title": "水平布局",
+                "key": "e1e06279-b645-410a-9f0b-079318a0473e",
+                "icon": "anticon anticon-wallet",
+                "isLeaf": false,
+                "expanded": true,
+                "children": [
+                    {
+                        "title": "树形控件",
+                        "key": "2703b299-6aa0-401f-8a41-65cac323f171",
+                        "icon": "anticon anticon-setting",
+                        "isLeaf": true,
+                        "expanded": true,
+                        "children": [],
+                        "compName": "Tree",
+                        "compType": "basic",
+                        "parentId": "e1e06279-b645-410a-9f0b-079318a0473e"
+                    },
+                    {
+                        "title": "垂直布局",
+                        "key": "1632333a-6006-4269-9178-a93d1511dc13",
+                        "icon": "anticon anticon-wallet",
+                        "isLeaf": false,
+                        "expanded": true,
+                        "children": [
+                            {
+                                "title": "水平布局",
+                                "key": "7efc708f-55f7-44f7-9841-57ed449b8d3c",
+                                "icon": "anticon anticon-wallet",
+                                "isLeaf": false,
+                                "expanded": true,
+                                "children": [
+                                    {
+                                        "title": "按钮",
+                                        "key": "4910910b-35c2-4e17-b22a-05db3ca9c06d",
+                                        "icon": "anticon anticon-setting",
+                                        "isLeaf": true,
+                                        "expanded": true,
+                                        "children": [],
+                                        "compName": "button",
+                                        "compType": "basic",
+                                        "parentId": "7efc708f-55f7-44f7-9841-57ed449b8d3c"
+                                    },
+                                    {
+                                        "title": "日期",
+                                        "key": "6ffaa9ae-6fec-475f-9acd-dd40d6fe1178",
+                                        "icon": "anticon anticon-setting",
+                                        "isLeaf": true,
+                                        "expanded": true,
+                                        "children": [],
+                                        "compName": "DatePicker",
+                                        "compType": "basic",
+                                        "parentId": "7efc708f-55f7-44f7-9841-57ed449b8d3c"
+                                    },
+                                    {
+                                        "title": "对话框",
+                                        "key": "56ce6384-b6f6-45b2-8364-44bb307f6064",
+                                        "icon": "anticon anticon-setting",
+                                        "isLeaf": true,
+                                        "expanded": true,
+                                        "children": [],
+                                        "compName": "Modal",
+                                        "compType": "basic",
+                                        "parentId": "7efc708f-55f7-44f7-9841-57ed449b8d3c"
+                                    }
+                                ],
+                                "compName": "layout_3",
+                                "compType": "layout",
+                                "parentId": "1632333a-6006-4269-9178-a93d1511dc13"
+                            },
+                            {
+                                "title": "表格",
+                                "key": "618278e3-235b-4ef0-85ea-efe4079af43f",
+                                "icon": "anticon anticon-setting",
+                                "isLeaf": true,
+                                "expanded": true,
+                                "children": [],
+                                "compName": "table",
+                                "compType": "other",
+                                "parentId": "1632333a-6006-4269-9178-a93d1511dc13"
+                            }
+                        ],
+                        "compName": "layout_4",
+                        "compType": "layout",
+                        "parentId": "e1e06279-b645-410a-9f0b-079318a0473e",
+                        "selected": true
+                    }
+                ],
+                "compName": "layout_3",
+                "compType": "layout",
+                "parentId": "root"
+            }
+        ],
+        "compName": "root"
+    }
+]

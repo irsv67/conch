@@ -1,0 +1,47 @@
+<div style="width: 100%; height: 100%;">
+
+    <div [ngClass]="{'c-hide': scs.mainPanelStatus != 'blank'}" style="width: 100%; height: 100%; border: #cccccc 1px solid;">
+        <div *ngIf="scs.projectList.length == 0" style="text-align: center; padding: 40px; font-size: 16px;">
+            请打开项目
+        </div>
+        <div *ngIf="scs.projectList.length > 0" style="text-align: center; padding: 40px; font-size: 16px;">
+            请选择项目
+        </div>
+        <div *ngIf="scs.projectList.length > 0" style="margin: 0 30%; background: #ffffff;">
+            <div class="project-list-title">
+                <span style="padding: 0 16px;">项目列表</span>
+            </div>
+            <div *ngFor="let item of scs.projectList" class="project-list-item">
+                <span (click)="chooseProject(item)">{{item.project_name}} ({{item.root_path}})</span>
+                <i class="anticon anticon-delete" (click)="removeProject(item)" style="float: right; margin-right: 8px; line-height: 36px; cursor: pointer;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div [ngClass]="{'c-hide': scs.mainPanelStatus != 'project-main'}" style="width: 100%; height: 100%; border: #cccccc 1px solid;">
+        <div style="text-align: center; padding: 40px; font-size: 16px;">
+            请选择页面
+        </div>
+    </div>
+
+    <ng-template #contextMenuTemp>
+        <ul nz-menu nzInDropDown (nzClick)="dropDownClick($event)">
+            <li nz-menu-item data-name="remove-item"><i class="anticon anticon-delete"></i>删除</li>
+            <li nz-menu-item data-name="add-block"><i class="anticon anticon-save"></i>另存为</li>
+        </ul>
+    </ng-template>
+
+    <div id="frame-panel" [ngClass]="{'c-hide': scs.mainPanelStatus != 'page'}" class="frame-panel" style="">
+        <ng-template ngFor let-child1 [ngForOf]="scs.pageSchema">
+            <div id="root-conch" conch-id container-tag style="background-color: rgba(235,237,240,1);" class="conch-item">
+                <app-recu-template [curNode]="child1" #subInstance></app-recu-template>
+            </div>
+        </ng-template>
+        <div id="focus-rect-left" style="position: absolute;"></div>
+        <div id="focus-rect-right" style="position: absolute;"></div>
+        <div id="focus-rect-top" style="position: absolute;"></div>
+        <div id="focus-rect-bottom" style="position: absolute;"></div>
+    </div>
+
+    <app-template-keeper #templateKeeper></app-template-keeper>
+</div>

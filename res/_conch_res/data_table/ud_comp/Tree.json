@@ -1,0 +1,12 @@
+{
+    "id": 14,
+    "comp_name": "树形控件",
+    "comp_code": "Tree",
+    "comp_type": "basic",
+    "html_temp": "<nz-tree #treeCom\r\n                  [nzData]=\"instanceHandler.Tree_<%=index%>.modelCode\"\r\n         >\r\n         </nz-tree>",
+    "style_temp": null,
+    "script_temp_import": "import {ViewChild} from '@angular/core';",
+    "script_temp_attr": "    @ViewChild('treeCom') treeCom;\r\n\r\n    treeData: any = [];",
+    "script_temp_func": null,
+    "script_temp_init": "        this.pageService.getDataSet('<%=model_config.modelCode%>').subscribe((response: any) => {\r\n            if (response) {\r\n                that.instanceHandler.Tree_<%=index%>.modelCode = response;\r\n            }\r\n        });"
+}

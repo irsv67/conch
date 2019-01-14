@@ -1,0 +1,33 @@
+<div style="padding: 0 4px;">
+    <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">
+        <span style="margin-right: 42px;">组件</span>
+    </div>
+
+    <div style="padding: 8px;">
+        <div *ngFor="let item of compLayoutList" draggable="true" (dragstart)="dragstart($event, item)" class="comp-drag-item">
+            <div style="font-size: 20px; text-align: center;">
+                <i class="anticon anticon-credit-card"></i>
+            </div>
+            <div style="text-align: center;">
+                {{item.comp_name}}
+            </div>
+
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div class="tab-bar" style="padding: 14px 8px;">
+        <span *ngFor="let item of compTypeList" (click)="changeCompList(item.code)" [ngClass]="{'active': compTypeStatus == item.code}">{{item.name}}</span>
+    </div>
+    <div style="padding: 8px;">
+        <div *ngFor="let item of compList" draggable="true" (dragstart)="dragstart($event, item)" class="comp-drag-item">
+            <div style="font-size: 20px; text-align: center;">
+                <i class="anticon anticon-credit-card"></i>
+            </div>
+            <div style="text-align: center;">
+                {{item.comp_name}}
+            </div>
+
+        </div>
+    </div>
+</div>

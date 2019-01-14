@@ -1,0 +1,103 @@
+<div class="tool-bar-1">
+    <table style="width: 100%;">
+        <tr style="height: 30px;">
+            <td style="width: 240px;">
+                <div style="margin-right: 20px;">
+
+                    <nz-dropdown>
+                        <span nz-dropdown style="cursor: pointer;">
+                            项目 <i class="anticon anticon-down"></i>
+                        </span>
+                        <ul nz-menu>
+                            <li nz-menu-item *ngFor="let item of scs.projectList">
+                                <span (click)="chooseProject(item)">{{item.project_name}}</span>
+                            </li>
+                        </ul>
+                    </nz-dropdown>
+
+                    <button nz-button [nzType]="'default'" (click)="addProject()" nzSize="small" style="margin-left: 10px; margin-right: 8px;">
+                        <i class="anticon anticon-plus"></i>
+                    </button>
+                    <nz-modal [(nzVisible)]="addProjectFormShow" nzTitle="添加项目" [nzClosable]="false" (nzOnCancel)="addProjectFormShow = false" (nzOnOk)="createProject()">
+                        <table class="project-form">
+                            <tr>
+                                <td>项目名称:</td>
+                                <td><input id="addProjectFocus" nz-input [(ngModel)]="projectObj.project_name" (keyup.enter)="createProject()" placeholder="请输入" style="width: 260px;"></td>
+                            </tr>
+                            <tr>
+                                <td>根路径:</td>
+                                <td>
+                                    <input nz-input [(ngModel)]="projectObj.root_folder" (keyup.enter)="createProject()" placeholder="请输入" style="width: 260px; margin-right: 8px;">
+                                    <button nz-button [nzType]="'default'" (click)="chooseDistFolder()" style="margin-right: 8px;">
+                                        浏览...
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </nz-modal>
+
+                    <button nz-button [nzType]="'default'" (click)="openProject()" nzSize="small" style="margin-right: 8px;">
+                        <i class="anticon anticon-folder-open"></i>
+                    </button>
+
+                    <button nz-button [nzType]="'default'" (click)="closeProject()" nzSize="small" style="margin-right: 8px;">
+                        <i class="anticon anticon-close"></i>
+                    </button>
+
+                </div>
+            </td>
+            <td>
+                <span [ngClass]="{'c-hide': scs.mainPanelStatus != 'page'}" style="margin-right: 16px;">页面路径：{{curChoosePagePath}}</span>
+            </td>
+            <td>
+
+            </td>
+            <td style="text-align: right;">
+
+                <span style="margin-right: 8px;">{{stateObj.stateMessage}}</span>
+                <i *ngIf="stateObj.stateIcon == 'error'" class="anticon anticon-close-circle-o" style="margin-right: 8px;"></i>
+                <i *ngIf="stateObj.stateIcon == 'loading'" class="anticon anticon-spin anticon-loading" style="margin-right: 8px;"></i>
+                <i *ngIf="stateObj.stateIcon == 'success'" class="anticon anticon-check-circle-o" style="margin-right: 8px;"></i>
+
+                <a *ngIf="stateObj.errorMessage" (click)="errorPanelShow = true" style="margin-right: 8px;">错误</a>
+
+                <span [ngClass]="{'c-hide': scs.mainPanelStatus == 'blank'}" style="margin-right: 4px;">|</span>
+                <span [ngClass]="{'c-hide': scs.mainPanelStatus == 'blank'}" (click)="openProjectFolder()" class="right-btn">
+                    <i class="anticon anticon-folder-open" style="margin-right: 4px;"></i>
+                    文件夹
+                </span>
+
+                <span [ngClass]="{'c-hide': scs.mainPanelStatus != 'page'}" style="margin-right: 4px;">|</span>
+                <span [ngClass]="{'c-hide': scs.mainPanelStatus != 'page'}" (click)="savePage()" class="right-btn">
+                    <i class="anticon anticon-save" style="margin-right: 4px;"></i>
+                    保存
+                </span>
+
+                <span [ngClass]="{'c-hide': scs.mainPanelStatus != 'page'}" style="margin-right: 4px;">|</span>
+                <span [ngClass]="{'c-hide': scs.mainPanelStatus != 'page'}" (click)="changeViewStatus()" class="right-btn">
+                    <i class="anticon anticon-eye-o" style="margin-right: 4px;"></i>
+                    预览
+                </span>
+
+            </td>
+        </tr>
+    </table>
+
+    <nz-modal [(nzVisible)]="loadingFormShow"
+              nzTitle="请稍等..."
+              [nzClosable]="false"
+              [nzOkText]="null"
+              [nzMaskClosable]="false"
+              (nzOnCancel)="loadingFormShow = false">
+        <div style="padding: 8px; font-size: 16px;">
+            <span style="margin-right: 8px;">{{stateObj.stateMessage}}</span>
+            <i class="anticon anticon-spin anticon-loading" style="margin-right: 8px;"></i>
+        </div>
+    </nz-modal>
+
+    <nz-modal [(nzVisible)]="errorPanelShow" nzTitle="错误信息" (nzOnCancel)="errorPanelShow = false">
+        <div style="padding: 8px;">
+            {{stateObj.errorMessage}}
+        </div>
+    </nz-modal>
+</div>

@@ -1,0 +1,123 @@
+<div class="template">
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Title" let-i="index">
+        <ng-template transmitter-host name="Title" [index]="i">
+            <div style="padding: 10px 20px; border-bottom: #DCDEE2 1px solid; font-weight: bolder;">{{ccs.instanceHandler.Title[i].model_config.name}}</div>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Navigate" let-i="index">
+        <ng-template transmitter-host name="Navigate" [index]="i">
+            <div style="padding: 16px; background-color: #FFFFFF; border-bottom: #DCDEE2 1px solid;">
+                <span style="font-weight: bolder; height: 32px; line-height: 32px; font-size: 14px; color: #0b1100;">
+                    {{instance.model_config.name}}
+                </span>
+            </div>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Button" let-i="index">
+        <ng-template transmitter-host name="Button" [index]="i">
+            <button nz-button
+                    [nzType]="instance.model_config.buttonType"
+                    [nzSize]="instance.model_config.antSize"
+                    [nzShape]="instance.model_config.btnSharp"
+            >
+                {{instance.model_config.name}}
+            </button>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Table" let-i="index">
+        <ng-template transmitter-host name="Table" [index]="i">
+            <nz-table #basicTable="" [nzData]="instance.model_value_map.modelCode">
+                <thead>
+                <tr>
+                    <ng-template ngFor let-modelItem [ngForOf]="instance.model_data_map.modelCode.listArray">
+                        <th>{{modelItem.desc}}</th>
+                    </ng-template>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of basicTable.data">
+
+                    <ng-template ngFor let-modelItem [ngForOf]="instance.model_data_map.modelCode.listArray">
+                        <td style="min-width:50px;max-width:80px"> {{data[modelItem.field]}}</td>
+                    </ng-template>
+                    <td>
+                        <a style="margin-right: 8px;">编辑</a>
+                        <a style="margin-right: 8px;">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.DatePicker" let-i="index">
+        <ng-template transmitter-host name="DatePicker" [index]="i">
+            <nz-date-picker [(ngModel)]="instance.model_config.date"></nz-date-picker>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Input" let-i="index">
+        <ng-template transmitter-host name="Input" [index]="i">
+            <input nz-input placeholder="请输入" [(ngModel)]="instance.model_config.value">
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Select" let-i="index">
+        <ng-template transmitter-host name="Select" [index]="i">
+            <nz-select style="width: 120px;" [(ngModel)]="instance.model_config.value" nzAllowClear nzPlaceHolder="Choose">
+                <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+                <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+                <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+            </nz-select>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Tree" let-i="index">
+        <ng-template transmitter-host name="Tree" [index]="i">
+            <nz-tree #treeCom
+                     [nzData]="instance.model_value_map.modelCode"
+            >
+            </nz-tree>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Modal" let-i="index">
+        <ng-template transmitter-host name="Modal" [index]="i">
+            <button nz-button [nzType]="'primary'" (click)="instance.model_config.isVisible = true;">
+                <span>{{instance.model_config.name}}</span>
+            </button>
+            <nz-modal [(nzVisible)]="instance.model_config.isVisible" nzTitle="{{instance.model_config.name}}" (nzOnCancel)="instance.model_config.isVisible = false">
+                <ng-template ngFor let-column [ngForOf]="instance.model_data_map.modelCode.formArray">
+                    <div style="padding: 16px;">
+                        <span>{{column.desc}}：</span>
+                        <input nz-input [(ngModel)]="instance.model_value_map.modelCode[column.field]" placeholder="请输入" style="width: 260px; margin-right: 8px;">
+                    </div>
+                </ng-template>
+            </nz-modal>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.Line" let-i="index">
+        <ng-template transmitter-host name="Line" [index]="i">
+            <app-chart [option]="instance.model_data_map.modelCode"></app-chart>
+        </ng-template>
+    </ng-template>
+
+    <ng-template ngFor let-instance [ngForOf]="ccs.instanceHandler.BaseInfo" let-i="index">
+        <ng-template transmitter-host name="BaseInfo" [index]="i">
+            <app-base-info
+                    [headerMajor]="instance.model_value_map.modelCode.headerMajor"
+                    [headerMinor]="instance.model_value_map.modelCode.headerMinor"
+                    [baseInfo]="instance.model_value_map.modelCode.baseInfo"
+                    [theCrowd]="instance.model_value_map.modelCode.theCrowd"
+                    [theLabel]="instance.model_value_map.modelCode.theLabel"
+                    [theInvalidLabel]="instance.model_value_map.modelCode.theInvalidLabel"
+                    class="shadow-content"></app-base-info>
+        </ng-template>
+    </ng-template>
+</div>

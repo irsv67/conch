@@ -1,0 +1,181 @@
+<div style="padding: 0 4px;">
+    <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">
+        <span style="margin-right: 12px;">属性</span>
+        <div class="prop-tab-div" style="float: right; width: 110px;">
+            <span class="prop-tab-span" (click)="scs.curSelectedConch.propTabActive = 1" [ngClass]="{'active': scs.curSelectedConch.propTabActive == 1}">数据</span>
+            <span class="prop-tab-span" (click)="scs.curSelectedConch.propTabActive = 2" [ngClass]="{'active': scs.curSelectedConch.propTabActive == 2}">样式</span>
+        </div>
+    </div>
+</div>
+<div style="padding: 0 4px; overflow-y: auto; display: flex; height: 600px;">
+    <div *ngIf="scs.curDataConch.conchId && scs.curDataConch.conchId != 'root-conch'" [ngClass]="{'c-hide': scs.curSelectedConch.propTabActive != 1}" style="padding: 8px; width: 100%;">
+        <table class="prop_table">
+            <tr>
+                <td style="width: 70px;">类型:</td>
+                <td>{{scs.curDataConch.isLayout ? '容器' : '组件'}}</td>
+            </tr>
+            <tr>
+                <td>编码:</td>
+                <td>{{scs.curDataConch.conchId}}</td>
+            </tr>
+            <tr *ngFor="let item of scs.curSelectedConch.model_view_list">
+                <td>{{item.desc}}:</td>
+                <td>
+                    <input *ngIf="item.view_type == 'input'" nz-input [(ngModel)]="item.value" [nzSize]="'small'" class="property-input" style="width: 100px;" placeholder="请输入内容">
+                    <nz-select *ngIf="item.view_type == 'select' && item.data_src == 'model'" [(ngModel)]="item.value" nzPlaceHolder="Choose" style="min-width: 80px;">
+                        <nz-option *ngFor="let selectItem of item.selectList" nzValue="{{selectItem.model_code}}" nzLabel="{{selectItem.model_name}}"></nz-option>
+                    </nz-select>
+
+                    <nz-select *ngIf="item.view_type == 'select' && item.data_src == 'enum'" [(ngModel)]="item.value" nzPlaceHolder="Choose" style="min-width: 80px;">
+                        <nz-option *ngFor="let selectItem of item.selectList" nzValue="{{selectItem.value}}" nzLabel="{{selectItem.desc}}"></nz-option>
+                    </nz-select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div *ngIf="scs.curDataConch.conchId && scs.curDataConch.conchId != 'root-conch'" [ngClass]="{'c-hide': scs.curSelectedConch.propTabActive != 2}" style="padding: 8px; width: 100%;">
+
+        <!--宽高-->
+        <table class="prop_table2">
+            <tr>
+                <td colspan="2">宽高</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 30%; text-align: right;">宽</td>
+                <td style="width: 70%;">
+                    <label nz-checkbox [(ngModel)]="scs.curStyleConch.style_config.widthAuto" (ngModelChange)="changeWidthAuto(scs.curStyleConch.style_config.widthAuto)" style="margin-left: 10px;">自适应</label>
+                </td>
+            </tr>
+            <tr [ngClass]="{'c-hide': scs.curStyleConch.style_config.widthAuto}">
+                <td style="width: 30%;"></td>
+                <td style="width: 70%;">
+                    <input nz-input [(ngModel)]="scs.curStyleConch.style_config.width" [nzSize]="'small'" style="width: 100px;" placeholder="请输入内容">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%; text-align: right;">高</td>
+                <td style="width: 70%;">
+                    <label nz-checkbox [(ngModel)]="scs.curStyleConch.style_config.heightAuto" (ngModelChange)="changeHeightAuto(scs.curStyleConch.style_config.heightAuto)" style="margin-left: 10px;">自适应</label>
+                </td>
+            </tr>
+            <tr [ngClass]="{'c-hide': scs.curStyleConch.style_config.heightAuto}">
+                <td style="width: 30%;"></td>
+                <td style="width: 70%;">
+                    <input nz-input [(ngModel)]="scs.curStyleConch.style_config.height" [nzSize]="'small'" style="width: 100px;" placeholder="请输入内容">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%; text-align: right;">缩放</td>
+                <td style="width: 70%;">
+                    <nz-select style="width: 120px;" [(ngModel)]="scs.curStyleConch.style_config.flex" nzPlaceHolder="Choose">
+                        <nz-option nzValue="none" nzLabel="none"></nz-option>
+                        <nz-option nzValue="auto" nzLabel="auto"></nz-option>
+                    </nz-select>
+                </td>
+            </tr>
+        </table>
+
+        <!--外边距-->
+        <table class="prop_table2">
+            <tr>
+                <td colspan="4">外边距（px）</td>
+            </tr>
+            <tr>
+                <td style="width: 25%; text-align: right;">上</td>
+                <td style="width: 25%;">
+                    <nz-input-number [(ngModel)]="scs.curStyleConch.style_config.marginTop" [nzMin]="0" [nzMax]="99" [nzStep]="1" [nzSize]="'small'" class="input" style="width: 60px;"></nz-input-number>
+                </td>
+                <td style="width: 25%; text-align: right;">下</td>
+                <td style="width: 25%;">
+                    <nz-input-number [(ngModel)]="scs.curStyleConch.style_config.marginBottom" [nzMin]="0" [nzMax]="99" [nzStep]="1" [nzSize]="'small'" class="input" style="width: 60px;"></nz-input-number>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; text-align: right;">左</td>
+                <td style="width: 25%;">
+                    <nz-input-number [(ngModel)]="scs.curStyleConch.style_config.marginLeft" [nzMin]="0" [nzMax]="99" [nzStep]="1" [nzSize]="'small'" class="input" style="width: 60px;"></nz-input-number>
+                </td>
+                <td style="width: 25%; text-align: right;">右</td>
+                <td style="width: 25%;">
+                    <nz-input-number [(ngModel)]="scs.curStyleConch.style_config.marginRight" [nzMin]="0" [nzMax]="99" [nzStep]="1" [nzSize]="'small'" class="input" style="width: 60px;"></nz-input-number>
+                </td>
+            </tr>
+        </table>
+
+        <!--内边距-->
+        <table class="prop_table2">
+            <tr>
+                <td colspan="4">内边距（px）</td>
+            </tr>
+            <tr>
+                <td style="width: 25%; text-align: right;">上</td>
+                <td style="width: 25%;">
+                    <nz-input-number [(ngModel)]="scs.curStyleConch.style_config.paddingTop" [nzMin]="0" [nzMax]="99" [nzStep]="1" [nzSize]="'small'" class="input" style="width: 60px;"></nz-input-number>
+                </td>
+                <td style="width: 25%; text-align: right;">下</td>
+                <td style="width: 25%;">
+                    <nz-input-number [(ngModel)]="scs.curStyleConch.style_config.paddingBottom" [nzMin]="0" [nzMax]="99" [nzStep]="1" [nzSize]="'small'" class="input" style="width: 60px;"></nz-input-number>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%; text-align: right;">左</td>
+                <td style="width: 25%;">
+                    <nz-input-number [(ngModel)]="scs.curStyleConch.style_config.paddingLeft" [nzMin]="0" [nzMax]="99" [nzStep]="1" [nzSize]="'small'" class="input" style="width: 60px;"></nz-input-number>
+                </td>
+                <td style="width: 25%; text-align: right;">右</td>
+                <td style="width: 25%;">
+                    <nz-input-number [(ngModel)]="scs.curStyleConch.style_config.paddingRight" [nzMin]="0" [nzMax]="99" [nzStep]="1" [nzSize]="'small'" class="input" style="width: 60px;"></nz-input-number>
+                </td>
+            </tr>
+        </table>
+
+        <!--背景和边框-->
+        <table class="prop_table2">
+            <tr>
+                <td colspan="2">背景和边框</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 30%; text-align: right;">背景</td>
+                <td style="width: 70%;">
+                    <input nz-input [(ngModel)]="scs.curStyleConch.style_config.background" [nzSize]="'small'" style="width: 100px; margin-left: 10px;" placeholder="请输入颜色值">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%; text-align: right;">圆角</td>
+                <td style="width: 70%;">
+                    <nz-select style="width: 120px;" [(ngModel)]="scs.curStyleConch.style_config.borderRadius" nzPlaceHolder="Choose">
+                        <nz-option nzValue="" nzLabel="无"></nz-option>
+                        <nz-option nzValue="1px" nzLabel="1px"></nz-option>
+                        <nz-option nzValue="2px" nzLabel="2px"></nz-option>
+                        <nz-option nzValue="3px" nzLabel="3px"></nz-option>
+                        <nz-option nzValue="4px" nzLabel="4px"></nz-option>
+                    </nz-select>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%; text-align: right;">阴影</td>
+                <td style="width: 70%;">
+                    <label nz-checkbox [(ngModel)]="scs.curStyleConch.style_config.boxShadow" style="margin-left: 10px;">显示</label>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+<div style="padding: 0 4px;">
+    <div *ngIf="scs.curDataConch.conchId && scs.curDataConch.conchId != 'root-conch'" style="padding: 10px; text-align: center;">
+        <button (click)="updateItem()" nz-button nzType="default" style="margin-right: 10px;">
+            <i class="anticon anticon-upload"></i>更新
+        </button>
+    </div>
+
+    <nz-modal [(nzVisible)]="blockFormShow" nzTitle="添加区块" [nzClosable]="false" (nzOnCancel)="blockFormShow = false" (nzOnOk)="createBlock()">
+        <div style="padding: 8px;">
+            区块名称: &nbsp;&nbsp;<input id="addBlockFocus" nz-input [(ngModel)]="blockName" (keyup.enter)="createBlock()" placeholder="请输入" style="width: 290px; margin-right: 4px;"><br>
+        </div>
+    </nz-modal>
+</div>

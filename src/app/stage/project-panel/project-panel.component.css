@@ -1,0 +1,12 @@
+
+/deep/ .tree-base .anticon-credit-card:before {
+    color: #2d8cf0;
+}
+
+/deep/ .tree-base .anticon-folder:before {
+    color: #fcc45f;
+}
+
+/deep/ .tree-base .anticon-file:before {
+    color: #2de2c5;
+}

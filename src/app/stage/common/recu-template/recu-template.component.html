@@ -1,0 +1,10 @@
+<ng-template ngFor let-subNode [ngForOf]="curNode.children">
+    <app-recu-template *ngIf="subNode.comp_code == 'LayoutRow' || subNode.comp_code == 'LayoutColumn'"
+                       container-tag conch-id [id]="subNode.key" [class]="subNode.comp_code + ' conch-item'"
+                       [ngStyle]="subNode.styleNew || {}"
+                       [curNode]="subNode" #subInstance></app-recu-template>
+    <div *ngIf="subNode.comp_code != 'LayoutRow' && subNode.comp_code != 'LayoutColumn' && subNode.comp_code"
+         conch-id [id]="subNode.key" [class]="subNode.comp_code + ' conch-item'" [ngStyle]="subNode.styleNew || {}">
+        <ng-template receptor-host [name]="subNode.comp_code"></ng-template>
+    </div>
+</ng-template>

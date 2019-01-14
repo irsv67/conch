@@ -1,0 +1,30 @@
+.frame-panel {
+    width: 100%;
+    height: 100%;
+    border: #cccccc 1px solid;
+    position: relative;
+    overflow-y: auto;
+    max-height: 680px;
+}
+
+.project-list-title {
+    height: 36px;
+    line-height: 36px;
+}
+
+.project-list-item {
+    height: 36px;
+    line-height: 36px;
+    border-top: #e8e8e8 1px solid;
+}
+
+.project-list-item:hover {
+    background: #f9f9f9;
+}
+
+.project-list-item span {
+    cursor: pointer;
+    padding: 0 16px;
+    display: inline-block;
+    width: calc(100% - 30px);
+}

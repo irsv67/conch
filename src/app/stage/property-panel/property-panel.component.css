@@ -1,0 +1,83 @@
+
+.prop_table {
+    width: 100%;
+}
+
+.prop_table td {
+    border-bottom: #cccccc 1px solid;
+    padding: 8px 4px;
+}
+
+/*-----------------*/
+
+.prop_table2 {
+    width: 100%;
+    border-bottom: #cccccc 1px solid;
+    margin-bottom: 10px;
+}
+
+.prop_table2 td {
+    padding: 8px 4px;
+}
+
+.prop_table2 input, .prop_table2 .input {
+    border: none;
+    background: 0 0;
+    border-bottom: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 0 5px;
+    display: inline-block;
+
+    color: rgba(0, 0, 0, 0.65);
+    border-radius: 4px;
+    transition: all 0.3s ease 0s;
+}
+
+.property-input {
+    border: none;
+    background: 0 0;
+    border-bottom: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 0 5px;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.65);
+    border-radius: 4px;
+    transition: all 0.3s ease 0s;
+}
+
+/*------------------*/
+
+.prop_table /deep/ .ant-select-selection.ant-select-selection--single, .prop_table2 /deep/ .ant-select-selection.ant-select-selection--single {
+    margin: 10px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: inherit;
+}
+
+/*===========*/
+
+.prop-tab-div {
+    border: 1px solid #5e6577;
+    border-radius: 4px;
+    height: 24px;
+    line-height: 22px;
+    transition: all .3s ease;
+    cursor: pointer;
+    margin: 0;
+}
+
+.prop-tab-span {
+    padding: 0 10px;
+    text-align: center;
+    width: 50%;
+    color: #5e6577;
+    display: inline-block;
+}
+
+.prop-tab-span.active {
+    background: #5e6577;
+    color: #f2f6ff;
+}
+
+/*----------*/
+

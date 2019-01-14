@@ -1,0 +1,23 @@
+.comp-drag-item {
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comp-drag-item:hover {
+    background: rgba(178, 178, 178, 1);
+}
+
+.remove-block-menu {
+    background: #FFFFFF;
+    display: none;
+    position: absolute;
+    padding: 4px 16px;
+    border: #cccccc 1px solid;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.remove-block-menu:hover {
+    background: #eeeeee;
+}

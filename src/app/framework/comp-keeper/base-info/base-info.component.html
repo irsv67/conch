@@ -1,0 +1,92 @@
+<!-- 头部 -->
+<div class="header">
+    <span class="major">{{vm.header.major}}</span>
+    <span class="minor">{{vm.header.minor}}</span>
+</div>
+
+<!-- 基本属性 -->
+<div *ngFor="let itemGroup of vm.baseProperty.itemData" class="base-property">
+    <div class="title">{{itemGroup.name}}</div>
+    <div [class.more]="itemGroup.morePower" class="content">
+
+        <!-- 内容项 -->
+        <a *ngFor="let item of itemGroup.value" [attr.data-name]="item.name + vm.baseProperty.itemColon" class="item" title="{{item.name}}: {{item.value}}">{{item.value}}</a>
+
+        <!-- 展开更多 -->
+        <a *ngIf="itemGroup.value.length > 8 && itemGroup.morePower" (click)="handlerBasePropertyMore(itemGroup)" class="more">
+            <span *ngIf="searchFlag" class="anticon anticon-up"></span>
+            收起更多
+        </a>
+        <a *ngIf="itemGroup.value.length > 8 && !itemGroup.morePower" (click)="handlerBasePropertyMore(itemGroup)" class="more">
+            展开更多
+        </a>
+
+    </div>
+</div>
+
+<!-- 所属人群 -->
+<div class="the-crowd" *ngIf="vm.theCrowd.itemData.length > 0">
+    <div class="title">{{vm.theCrowd.title}}</div>
+    <div [class.more]="vm.theCrowd.morePower" class="content">
+
+        <!-- 内容项 -->
+        <div class="item-box" *ngFor="let item of vm.theCrowd.itemData" >
+            <a class="item" title="{{item.name}}">{{item.name}}</a>
+        </div>
+        
+        <!-- 展开更多 -->
+        <a *ngIf="vm.theCrowd.itemData.length > 20 && vm.theCrowd.morePower" (click)="handlerBasePropertyMore(vm.theCrowd)" class="more">
+            <span  class="anticon anticon-up"></span>
+            收起更多
+        </a>
+        <a *ngIf="vm.theCrowd.itemData.length > 20 && !vm.theCrowd.morePower" (click)="handlerBasePropertyMore(vm.theCrowd)" class="more">
+            <span  class="anticon anticon-down"></span>
+            展开更多
+        </a>
+    </div>
+</div>
+
+<!-- 所属标签 -->
+<div  class="the-label" *ngIf="vm.theLabel.itemData.length > 0">
+    <div class="title"><i class="anticon anticon-tag"></i>{{vm.theLabel.title}}</div>
+    <div [class.more]="vm.theLabel.morePower" class="content">
+
+        <!-- 内容项 -->
+        <div class="item-box" *ngFor="let item of vm.theLabel.itemData" >
+            <a class="item" title="{{item.name}}">{{item.name}}</a>
+        </div>
+     
+        <!-- 展开更多 -->
+        <a *ngIf="vm.theLabel.itemData.length > 20 && vm.theLabel.morePower" (click)="handlerBasePropertyMore(vm.theLabel)" class="more">
+            <span  class="anticon anticon-up"></span>
+            收起更多
+        </a>
+        <a *ngIf="vm.theLabel.itemData.length > 20 && !vm.theLabel.morePower" (click)="handlerBasePropertyMore(vm.theLabel)" class="more">
+            <span  class="anticon anticon-down"></span>
+            展开更多
+        </a>
+
+    </div>
+</div>
+<!-- 失效标签 -->
+<div  class="the-invalidLabel" *ngIf="vm.theInvalidLabel.itemData.length > 0">
+    <div class="title">{{vm.theInvalidLabel.title}}</div>
+    <div [class.more]="vm.theInvalidLabel.morePower" class="content">
+
+        <!-- 内容项 -->
+        <div class="item-box" *ngFor="let item of vm.theInvalidLabel.itemData" >
+            <a class="item" title="{{item.name}}">{{item.name}}</a>
+        </div>
+
+        <!-- 展开更多 -->
+        <a *ngIf="vm.theInvalidLabel.itemData.length > 20 && vm.theInvalidLabel.morePower" (click)="handlerBasePropertyMore(vm.theInvalidLabel)" class="more">
+            <span  class="anticon anticon-up"></span>
+            收起更多
+        </a>
+        <a *ngIf="vm.theInvalidLabel.itemData.length > 20 && !vm.theInvalidLabel.morePower" (click)="handlerBasePropertyMore(vm.theInvalidLabel)" class="more">
+            <span  class="anticon anticon-down"></span>
+            展开更多
+        </a>
+
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div style="display: block; height: 100%; width: 240px;">
+    <div class="theLeft">
+        <ul class="menu-box ant-menu ant-menu-root ant-menu-light ant-menu-inline" nz-menu="">
+            <li>
+                <span class="menu-title clrfix" title="">
+                    <span class="td-icon"></span>
+                    <span class="td-title ng-star-inserted">
+                        <span>demo1</span>
+                    </span>
+                </span>
+            </li>
+            <!--ant-menu-item-selected-->
+            <li *ngFor="let menu of menuList" (click)="goPage(menu.url)" nz-menu-item="" tabindex="0" class="ant-menu-item ng-star-inserted" style="padding-left: 24px;">
+                <span title="">
+                    <span class="anticon anticon-setting"></span>
+                    <span>{{menu.desc}}</span>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>

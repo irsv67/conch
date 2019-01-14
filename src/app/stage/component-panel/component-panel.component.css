@@ -1,0 +1,29 @@
+.comp-drag-item {
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 70px;
+    float: left;
+    margin: 5px;
+}
+
+.comp-drag-item:hover {
+    background: rgba(178, 178, 178, 1);
+}
+
+/*====================*/
+.tab-bar span {
+    margin-right: 4px;
+    background: rgba(235, 237, 240, 1);
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.tab-bar span:hover {
+    background: #cccccc;
+}
+
+.tab-bar span.active {
+    background: #cccccc;
+}

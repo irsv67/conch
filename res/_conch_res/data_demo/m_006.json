@@ -1,0 +1,46 @@
+[
+    {
+        "title": "布局管理2",
+        "key": "root",
+        "expanded": true,
+        "icon": "anticon anticon-file",
+        "children": [
+            {
+                "title": "水平布局",
+                "key": "e1e06279-b645-410a-9f0b-079318a0473e",
+                "icon": "anticon anticon-wallet",
+                "isLeaf": false,
+                "expanded": true,
+                "children": [
+                    {
+                        "title": "树形控件",
+                        "key": "2703b299-6aa0-401f-8a41-65cac323f171",
+                        "icon": "anticon anticon-setting",
+                        "isLeaf": true,
+                        "expanded": true,
+                        "children": [],
+                        "compName": "Tree",
+                        "compType": "basic",
+                        "parentId": "e1e06279-b645-410a-9f0b-079318a0473e"
+                    },
+                    {
+                        "title": "垂直布局",
+                        "key": "1632333a-6006-4269-9178-a93d1511dc13",
+                        "icon": "anticon anticon-wallet",
+                        "isLeaf": false,
+                        "expanded": true,
+                        "children": [],
+                        "compName": "layout_4",
+                        "compType": "layout",
+                        "parentId": "e1e06279-b645-410a-9f0b-079318a0473e",
+                        "selected": true
+                    }
+                ],
+                "compName": "layout_3",
+                "compType": "layout",
+                "parentId": "root"
+            }
+        ],
+        "compName": "root"
+    }
+]

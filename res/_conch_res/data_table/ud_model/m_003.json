@@ -1,0 +1,7 @@
+{
+    "id": 3,
+    "model_name": "页面表单",
+    "model_code": "m_003",
+    "model_type": "form",
+    "model_data": "{\"formArray\":[{\"field\":\"id\",\"desc\":\"ID\",\"type\":\"normal\"},{\"field\":\"name\",\"desc\":\"名称\",\"type\":\"normal\"},{\"field\":\"profile\",\"desc\":\"用户\",\"type\":\"normal\"},{\"field\":\"column3\",\"desc\":\"新增列3\",\"type\":\"normal\"}],\"listArray\":[{\"field\":\"name\",\"desc\":\"名称\",\"type\":\"normal\"},{\"field\":\"profile\",\"desc\":\"用户\",\"type\":\"normal\"},{\"field\":\"root_path\",\"desc\":\"根路径\",\"type\":\"normal\"}]}"
+}

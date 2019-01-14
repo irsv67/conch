@@ -1,0 +1,7 @@
+{
+    "id": 10,
+    "model_name": "图表信息2",
+    "model_code": "m_010",
+    "model_type": "chart",
+    "model_data": "{\r\n    \"xAxis\": {\r\n        \"type\": \"category\",\r\n        \"data\": [\r\n            \"星期一\",\r\n            \"星期二\",\r\n            \"星期三\",\r\n            \"星期四\",\r\n            \"星期五\",\r\n            \"星期六\",\r\n            \"星期日\"\r\n        ]\r\n    },\r\n    \"yAxis\": {\r\n        \"type\": \"value\"\r\n    },\r\n    \"series\": [\r\n        {\r\n            \"data\": [\r\n                820,\r\n                932,\r\n                901,\r\n                934,\r\n                1290,\r\n                1330,\r\n                1320\r\n            ],\r\n            \"type\": \"line\"\r\n        }\r\n    ]\r\n}"
+}

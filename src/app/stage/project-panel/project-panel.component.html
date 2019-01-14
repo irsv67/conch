@@ -1,0 +1,44 @@
+<div style="padding: 0 4px;">
+    <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">
+        <span style="margin-right: 42px;">项目</span>
+    </div>
+</div>
+
+<div style="padding: 0 4px; overflow-y: auto; display: flex; max-height: 740px;">
+    <div [ngClass]="{'c-hide': treeData.length == 0}" class="tree-base" style="padding: 8px;">
+
+        <nz-tree #treeCom
+                 [nzData]="treeData"
+                 (nzClick)="chooseTreeNode($event)"
+                 (nzContextMenu)="rightClickNode($event,template)"
+        >
+        </nz-tree>
+
+        <ng-template #template>
+            <ul nz-menu nzInDropDown (nzClick)="dropDownClick($event)">
+                <li nz-menu-item data-name="create-page"><i class="anticon anticon-file-add"></i>新建页面</li>
+                <li nz-menu-item data-name="create-folder"><i class="anticon anticon-folder-add"></i>新建目录</li>
+                <li nz-menu-item data-name="remove-item"><i class="anticon anticon-delete"></i>删除</li>
+            </ul>
+        </ng-template>
+
+        <nz-modal [(nzVisible)]="folderFormShow" nzTitle="添加目录" [nzClosable]="false" (nzOnCancel)="folderFormShow = false" (nzOnOk)="createFolder()">
+            <div style="padding: 8px;">
+                目录名称: &nbsp;&nbsp;<input id="addFolderFocus" nz-input [(ngModel)]="folderObj.folder_name" (keyup.enter)="createFolder()" placeholder="请输入" style="width: 290px; margin-right: 4px;">
+                eg: my-folder
+                <br>
+            </div>
+        </nz-modal>
+
+        <nz-modal [(nzVisible)]="pageFormShow" nzTitle="添加页面" [nzClosable]="false" (nzOnCancel)="pageFormShow = false" (nzOnOk)="createPage()">
+            <div style="padding: 8px;">
+                页面名称: &nbsp;&nbsp;<input id="addPageFocus" nz-input [(ngModel)]="pageObj.page_name" (keyup.enter)="createPage()" placeholder="请输入" style="width: 290px; margin-right: 4px;">
+                eg: my-page
+                <br>
+            </div>
+            <div style="padding: 8px;">
+                中文描述: &nbsp;&nbsp;<input nz-input [(ngModel)]="pageObj.page_desc" (keyup.enter)="createPage()" placeholder="请输入" style="width: 290px; margin-right: 4px;"><br>
+            </div>
+        </nz-modal>
+    </div>
+</div>
