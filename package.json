@@ -4,19 +4,19 @@
   "description": "",
   "main": "bundle.js",
   "scripts": {
+    "watch-frontend": "ng build --watch",
+    "watch-backend": "webpack --watch",
+    "start-ele": "electron ./dist",
+    "dev-ele": "electron --inspect-brk=5858 .",
+    "package": "electron-packager ./dist td-flash --platform=win32 --arch=x64 --out ../OutApp-win --electron-version 3.0.8 --overwrite --icon=res/favicon.ico",
+    "package-mac": "electron-packager ./dist td-flash --platform=darwin --arch=x64 --out ../OutApp-mac --electron-version 3.0.8 --overwrite --icon=res/favicon.icns",
+    "package-all": "electron-packager ./dist td-flash --all --out ../OutApp-all --electron-version 3.0.8 --overwrite --icon=res/favicon.ico",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-dev": "ng build --watch",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "start-ele": "electron .",
-    "start-dist": "electron ./dist",
-    "dev-ele": "electron --inspect-brk=5858 .",
-    "package-all": "electron-packager ./dist td-flash --all --out ../OutApp-all --electron-version 3.0.8 --overwrite --icon=res/favicon.ico",
-    "package-mac": "electron-packager ./dist td-flash --platform=darwin --arch=x64 --out ../OutApp-mac --electron-version 3.0.8 --overwrite --icon=res/favicon.icns",
-    "package": "electron-packager ./dist td-flash --platform=win32 --arch=x64 --out ../OutApp-win --electron-version 3.0.8 --overwrite --icon=res/favicon.ico"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {

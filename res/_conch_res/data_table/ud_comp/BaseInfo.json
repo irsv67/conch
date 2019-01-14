@@ -2,7 +2,7 @@
     "id": 20,
     "comp_name": "用户信息",
     "comp_code": "BaseInfo",
-    "comp_type": "other",
+    "comp_type": "business",
     "html_temp": "<app-base-info\r\n    [headerMajor]=\"instanceHandler.BaseInfo_<%=index%>.modelCode.headerMajor\"\r\n    [headerMinor]=\"instanceHandler.BaseInfo_<%=index%>.modelCode.headerMinor\"\r\n    [baseInfo]=\"instanceHandler.BaseInfo_<%=index%>.modelCode.baseInfo\"\r\n    [theCrowd]=\"instanceHandler.BaseInfo_<%=index%>.modelCode.theCrowd\"\r\n    [theLabel]=\"instanceHandler.BaseInfo_<%=index%>.modelCode.theLabel\"\r\n    [theInvalidLabel]=\"instanceHandler.BaseInfo_<%=index%>.modelCode.theInvalidLabel\"\r\n    class=\"shadow-content\"></app-base-info>",
     "style_temp": null,
     "script_temp_import": null,

@@ -1,0 +1,16 @@
+[
+    {
+        "id": 0,
+        "alarmName": "规则1",
+        "alarmType": 1,
+        "effectStatus": 0,
+        "description": "描述",
+        "productId": 0,
+        "creator": "user",
+        "createBy": "user",
+        "createTime": "2018-12-17 11:56:22",
+        "updater": "user",
+        "updateBy": "user",
+        "updateTime": "2018-12-17 11:56:55"
+      }
+]

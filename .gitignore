@@ -1,3 +1,8 @@
+#mine
+.idea
+dist/conch
+dist/bundle.js
+
 # Logs
 logs
 *.log

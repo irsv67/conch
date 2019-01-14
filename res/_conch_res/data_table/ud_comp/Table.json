@@ -6,7 +6,7 @@
     "html_temp": "<nz-table #basicTable [nzData]=\"instanceHandler.Table_<%=index%>.modelCode\">\r\n         <thead>\r\n         <tr> <% model_data.listArray.forEach(function(column){ %>\r\n             <th> <%=column.desc%></th>\r\n             <% }); %>\r\n             <th>操作</th>\r\n         </tr>\r\n         </thead>\r\n         <tbody>\r\n         <tr *ngFor=\"let data of basicTable.data\"> <% model_data.listArray.forEach(function(column){ %> <% if(column.type == 'normal') { %>\r\n             <td style=\"min-width:50px;max-width:80px\"> {{data.<%=column.field%>}}</td>\r\n             <% } else if(column.type == 'control') { %>\r\n             <td style=\"min-width:50px;max-width:80px\"> {{data.<%=column.field%>}}</td>\r\n             <% } %> <% }); %>\r\n             <td>\r\n                 <a style=\"margin-right: 8px;\">编辑</a>\r\n                 <a style=\"margin-right: 8px;\">删除</a>\r\n             </td>\r\n         </tr>\r\n         </tbody>\r\n     </nz-table>",
     "style_temp": null,
     "script_temp_import": null,
-    "script_temp_attr": "    dataSet: any = [];",
+    "script_temp_attr": null,
     "script_temp_func": null,
     "script_temp_init": "        this.pageService.getDataSet('<%=model_config.modelCode%>').subscribe((response: any) => {\r\n            if (response) {\r\n                that.instanceHandler.Table_<%=index%>.modelCode = response;\r\n            }\r\n        });"
 }

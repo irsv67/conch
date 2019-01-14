@@ -2,7 +2,7 @@
     "id": 5,
     "comp_name": "标题栏",
     "comp_code": "Title",
-    "comp_type": "basic",
+    "comp_type": "business",
     "html_temp": "<div style=\"padding: 10px 20px; border-bottom: #DCDEE2 1px solid; font-weight: bolder;\">{{instanceHandler.Title_<%=index%>.name}}</div>",
     "style_temp": null,
     "script_temp_import": null,

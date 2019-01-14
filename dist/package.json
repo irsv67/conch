@@ -1,0 +1,13 @@
+{
+    "name": "td-flash",
+    "version": "1.0.0",
+    "description": "",
+    "main": "bundle.js",
+    "scripts": {},
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+    },
+    "dependencies": {
+    }
+}

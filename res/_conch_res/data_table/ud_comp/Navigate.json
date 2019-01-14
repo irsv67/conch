@@ -2,7 +2,7 @@
     "id": 6,
     "comp_name": "导航条",
     "comp_code": "Navigate",
-    "comp_type": "basic",
+    "comp_type": "business",
     "html_temp": "    <div style=\"padding: 16px; background-color: #FFFFFF; border-bottom: #DCDEE2 1px solid;\">         <span style=\"font-weight: bolder; height: 32px; line-height: 32px; font-size: 14px; color: #0b1100;\">{{instanceHandler.Navigate_<%=index%>.name}}</span>     </div>",
     "style_temp": null,
     "script_temp_import": null,
