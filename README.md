@@ -1,3 +1,7 @@
+### 可视化代码生成工具
+- 可创建工程，拖拽组件布局页面，一键生成项目代码。
+- ![avatar](./res/demo.png)
+
 ##### 安装
 
 ###### 从git克隆代码:
@@ -8,7 +12,7 @@
 - npm install
 
 ###### 拷贝资源文件
-- 将 res/_conch_res.zip 解压到用户根目录（win7：C:\Users\your_name\_conch_res）
+- 将 res/_conch_res.zip 解压到用户根目录（win7：C:/Users/your_name/_conch_res）
 
 ##### 启动开发模式
 
