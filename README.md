@@ -12,6 +12,7 @@
 
 ###### 安装依赖
 - npm install
+- cd render && npm install
 
 ###### 拷贝资源文件
 - 将 res/_conch_res.zip 解压到用户根目录（win7：C:/Users/your_name/_conch_res）
