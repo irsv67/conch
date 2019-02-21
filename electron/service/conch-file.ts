@@ -1,23 +1,12 @@
-import {ConchDao} from "../const/conch-dao";
-import {
-    createReadStream,
-    createWriteStream,
-    existsSync,
-    mkdirSync,
-    readdirSync,
-    readFileSync,
-    renameSync,
-    statSync,
-    unlinkSync,
-    writeFileSync
-} from "fs";
-import {EOL} from "os";
-import {createInterface} from "readline";
+import {ConchDao} from '../const/conch-dao';
+import {createReadStream, createWriteStream, readFileSync, writeFileSync} from 'fs';
+import {EOL} from 'os';
+import {createInterface} from 'readline';
 
-import {TemplateBusiness} from "../const/template-business";
-import {GenFileService} from "../const/gen-file.service";
-import {render} from "ejs";
-import {Const} from "../const/const";
+import {TemplateBusiness} from '../const/template-business';
+import {GenFileService} from '../const/gen-file.service';
+import {render} from 'ejs';
+import {Const} from '../const/const';
 
 export class ConchFile {
 
@@ -40,9 +29,9 @@ export class ConchFile {
     // 递归拼装html
     weaveHtmlRecu(curNode, compMap, fieldName, keyMap) {
 
-        let index = keyMap[curNode.key];
+        const index = keyMap[curNode.key];
 
-        let modelObj = {
+        const modelObj = {
             model_config: curNode.model_config || {},
             model_data: curNode.model_data_map || {},
             index: index
@@ -55,7 +44,7 @@ export class ConchFile {
             htmlTemp = `<div class="${curNode.comp_code} ${curNode.comp_code}_${index} conch-item">`;
             htmlTemp += `</div>`;
         } else {
-            let compObj = compMap[curNode.comp_code];
+            const compObj = compMap[curNode.comp_code];
             if (compObj[fieldName]) {
                 htmlTemp = `<div class="${curNode.comp_code}_${index} conch-item">`;
                 htmlTemp += render(compObj[fieldName], modelObj);
@@ -63,17 +52,17 @@ export class ConchFile {
             }
         }
 
-        let $ = this.cheerio.load(htmlTemp, {
+        const $ = this.cheerio.load(htmlTemp, {
             decodeEntities: false,
             _useHtmlParser2: true,
             lowerCaseAttributeNames: false
         });
 
-        let root_dom = $.root().children();
+        const root_dom = $.root().children();
 
         for (let i = 0; i < curNode.children.length; i++) {
             const subNode = curNode.children[i];
-            let subDom = this.weaveHtmlRecu(subNode, compMap, fieldName, keyMap);
+            const subDom = this.weaveHtmlRecu(subNode, compMap, fieldName, keyMap);
             root_dom.append(subDom);
         }
 
@@ -83,9 +72,9 @@ export class ConchFile {
 
     weaveStyleRecu(curNode, compMap, fieldName, keyMap) {
 
-        let index = keyMap[curNode.key];
+        const index = keyMap[curNode.key];
 
-        let constStyleConfig: any = {
+        const constStyleConfig: any = {
             widthAuto: true,
             width: 'auto',
             heightAuto: true,
@@ -109,9 +98,9 @@ export class ConchFile {
 
         Object.assign(constStyleConfig, curNode.style_config);
 
-        let styleObj = Object.assign(constStyleConfig, curNode.style_config) || {};
+        const styleObj = Object.assign(constStyleConfig, curNode.style_config) || {};
 
-        //=================
+        // =================
 
         let styleTemp = `.${curNode.comp_code}_${index} {\r\n`;
         styleTemp += 'width: ' + styleObj.width + ';\r\n';
@@ -139,7 +128,7 @@ export class ConchFile {
 
         for (let i = 0; i < curNode.children.length; i++) {
             const subNode = curNode.children[i];
-            let subStyle = this.weaveStyleRecu(subNode, compMap, fieldName, keyMap);
+            const subStyle = this.weaveStyleRecu(subNode, compMap, fieldName, keyMap);
             styleTemp += subStyle;
         }
 
@@ -148,9 +137,9 @@ export class ConchFile {
 
     weaveScriptRecu(curNode, compMap, fieldName, keyMap) {
 
-        let index = keyMap[curNode.key];
+        const index = keyMap[curNode.key];
 
-        let modelObj = {
+        const modelObj = {
             model_config: curNode.model_config || {},
             model_data: curNode.model_data_map || {},
             index: index
@@ -158,7 +147,7 @@ export class ConchFile {
 
         let scriptTemp = '';
         if (curNode.comp_code && curNode.comp_code != 'LayoutRow' && curNode.comp_code != 'LayoutColumn') {
-            let compObj = compMap[curNode.comp_code];
+            const compObj = compMap[curNode.comp_code];
             if (compObj[fieldName]) {
                 scriptTemp += render(compObj[fieldName], modelObj);
             }
@@ -173,7 +162,7 @@ export class ConchFile {
 
         for (let i = 0; i < curNode.children.length; i++) {
             const subNode = curNode.children[i];
-            let subScript = this.weaveScriptRecu(subNode, compMap, fieldName, keyMap);
+            const subScript = this.weaveScriptRecu(subNode, compMap, fieldName, keyMap);
             scriptTemp += subScript;
         }
 
@@ -185,18 +174,18 @@ export class ConchFile {
     // 植入html代码
     weaveHtmlAll(pageVO, compMap, keyMap) {
 
-        let pageSchemaObj = JSON.parse(pageVO.page_schema);
+        const pageSchemaObj = JSON.parse(pageVO.page_schema);
 
-        let htmlTemp = this.weaveHtmlRecu(pageSchemaObj, compMap, 'html_temp', keyMap);
+        const htmlTemp = this.weaveHtmlRecu(pageSchemaObj, compMap, 'html_temp', keyMap);
 
-        let sub_path = '/' + pageVO.page_name + '/' + pageVO.page_name + '.component.html';
-        let file_path = pageVO.base_app + pageVO.folder_path + sub_path;
-        let tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
+        const sub_path = '/' + pageVO.page_name + '/' + pageVO.page_name + '.component.html';
+        const file_path = pageVO.base_app + pageVO.folder_path + sub_path;
+        const tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
 
-        let readStream = createReadStream(file_path);
-        let writeStream = createWriteStream(tmp_path);
+        const readStream = createReadStream(file_path);
+        const writeStream = createWriteStream(tmp_path);
 
-        let readLine = createInterface({
+        const readLine = createInterface({
             input: readStream,
             output: writeStream
         });
@@ -218,9 +207,9 @@ export class ConchFile {
 
         readLine.on('close', () => {
             setTimeout(() => {
-                let data = readFileSync(tmp_path, {encoding: 'utf-8'});
+                const data = readFileSync(tmp_path, {encoding: 'utf-8'});
                 writeFileSync(file_path, data);
-            }, 1000)
+            }, 1000);
         });
 
         writeStream.on('end', () => {
@@ -230,7 +219,7 @@ export class ConchFile {
     weaveInstanceDataRecu(curNode, keyMap, instanceObj) {
 
         if (curNode.comp_code) {
-            let index = keyMap[curNode.key];
+            const index = keyMap[curNode.key];
 
             curNode.model_config.model_data = curNode.model_data_map || {};
 
@@ -249,25 +238,25 @@ export class ConchFile {
     // 植入script代码
     weaveScriptAll(pageVO, compMap, keyMap) {
 
-        let pageSchemaObj = JSON.parse(pageVO.page_schema);
+        const pageSchemaObj = JSON.parse(pageVO.page_schema);
 
-        let instanceObj = {};
+        const instanceObj = {};
         this.weaveInstanceDataRecu(pageSchemaObj, keyMap, instanceObj);
-        let instanceStr = 'instanceHandler: any = ' + JSON.stringify(instanceObj) + ';';
+        const instanceStr = 'instanceHandler: any = ' + JSON.stringify(instanceObj) + ';';
 
-        let temp_data_import = this.weaveScriptRecu(pageSchemaObj, compMap, 'script_temp_import', keyMap);
-        let temp_data_attr = this.weaveScriptRecu(pageSchemaObj, compMap, 'script_temp_attr', keyMap);
-        let temp_data_func = this.weaveScriptRecu(pageSchemaObj, compMap, 'script_temp_func', keyMap);
-        let temp_data_init = this.weaveScriptRecu(pageSchemaObj, compMap, 'script_temp_init', keyMap);
+        const temp_data_import = this.weaveScriptRecu(pageSchemaObj, compMap, 'script_temp_import', keyMap);
+        const temp_data_attr = this.weaveScriptRecu(pageSchemaObj, compMap, 'script_temp_attr', keyMap);
+        const temp_data_func = this.weaveScriptRecu(pageSchemaObj, compMap, 'script_temp_func', keyMap);
+        const temp_data_init = this.weaveScriptRecu(pageSchemaObj, compMap, 'script_temp_init', keyMap);
 
-        let sub_path = '/' + pageVO.page_name + '/' + pageVO.page_name + '.component.ts';
-        let file_path = pageVO.base_app + pageVO.folder_path + sub_path;
-        let tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
+        const sub_path = '/' + pageVO.page_name + '/' + pageVO.page_name + '.component.ts';
+        const file_path = pageVO.base_app + pageVO.folder_path + sub_path;
+        const tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
 
-        let readStream = createReadStream(file_path);
-        let writeStream = createWriteStream(tmp_path);
+        const readStream = createReadStream(file_path);
+        const writeStream = createWriteStream(tmp_path);
 
-        let readLine = createInterface({
+        const readLine = createInterface({
             input: readStream,
             output: writeStream
         });
@@ -320,9 +309,9 @@ export class ConchFile {
 
         readLine.on('close', () => {
             setTimeout(() => {
-                let data = readFileSync(tmp_path, {encoding: 'utf-8'});
+                const data = readFileSync(tmp_path, {encoding: 'utf-8'});
                 writeFileSync(file_path, data);
-            }, 1000)
+            }, 1000);
         });
 
         writeStream.on('end', () => {
@@ -333,20 +322,20 @@ export class ConchFile {
     // 植入style代码
     weaveStyleAll(pageVO, compMap, keyMap) {
 
-        let pageSchemaObj = JSON.parse(pageVO.page_schema);
+        const pageSchemaObj = JSON.parse(pageVO.page_schema);
 
-        let scriptTemp = this.weaveScriptRecu(pageSchemaObj, compMap, 'style_temp', keyMap);
+        const scriptTemp = this.weaveScriptRecu(pageSchemaObj, compMap, 'style_temp', keyMap);
 
-        let styleTemp = this.weaveStyleRecu(pageSchemaObj, compMap, 'style_temp', keyMap);
+        const styleTemp = this.weaveStyleRecu(pageSchemaObj, compMap, 'style_temp', keyMap);
 
-        let sub_path = '/' + pageVO.page_name + '/' + pageVO.page_name + '.component.css';
-        let file_path = pageVO.base_app + pageVO.folder_path + sub_path;
-        let tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
+        const sub_path = '/' + pageVO.page_name + '/' + pageVO.page_name + '.component.css';
+        const file_path = pageVO.base_app + pageVO.folder_path + sub_path;
+        const tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
 
-        let readStream = createReadStream(file_path);
-        let writeStream = createWriteStream(tmp_path);
+        const readStream = createReadStream(file_path);
+        const writeStream = createWriteStream(tmp_path);
 
-        let readLine = createInterface({
+        const readLine = createInterface({
             input: readStream,
             output: writeStream
         });
@@ -369,9 +358,9 @@ export class ConchFile {
 
         readLine.on('close', () => {
             setTimeout(() => {
-                let data = readFileSync(tmp_path, {encoding: 'utf-8'});
+                const data = readFileSync(tmp_path, {encoding: 'utf-8'});
                 writeFileSync(file_path, data);
-            }, 1000)
+            }, 1000);
         });
 
         writeStream.on('end', () => {
@@ -381,11 +370,11 @@ export class ConchFile {
 
     // ==================================
     private getBigNameBySmall(fileNew) {
-        let nameArray = fileNew.split('-');
+        const nameArray = fileNew.split('-');
         let nameAll = '';
         for (let i = 0; i < nameArray.length; i++) {
             const nameItem = nameArray[i];
-            let nameNew = nameItem.charAt(0).toUpperCase() + nameItem.substring(1);
+            const nameNew = nameItem.charAt(0).toUpperCase() + nameItem.substring(1);
             nameAll += nameNew;
         }
         return nameAll;
@@ -398,20 +387,20 @@ export class ConchFile {
 
         let str_import_all = '';
         let str_declare_all = '';
-        for (let fileName in fileMap) {
-            let upperName = that.getBigNameBySmall(fileName);
+        for (const fileName in fileMap) {
+            const upperName = that.getBigNameBySmall(fileName);
             str_import_all += `import {${upperName}Component} from './${fileName}/${fileName}.component';\r\n`;
             str_declare_all += `${upperName}Component,\r\n`;
         }
 
-        let sub_path = '/' + pageVO.page_name + '/' + pageVO.page_name + '.module.ts';
-        let file_path = pageVO.base_app + pageVO.folder_path + sub_path;
-        let tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
+        const sub_path = '/' + pageVO.page_name + '/' + pageVO.page_name + '.module.ts';
+        const file_path = pageVO.base_app + pageVO.folder_path + sub_path;
+        const tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
 
-        let readStream = createReadStream(file_path);
-        let writeStream = createWriteStream(tmp_path);
+        const readStream = createReadStream(file_path);
+        const writeStream = createWriteStream(tmp_path);
 
-        let readLine = createInterface({
+        const readLine = createInterface({
             input: readStream,
             output: writeStream
         });
@@ -441,9 +430,9 @@ export class ConchFile {
 
         readLine.on('close', () => {
             setTimeout(() => {
-                let data = readFileSync(tmp_path, {encoding: 'utf-8'});
+                const data = readFileSync(tmp_path, {encoding: 'utf-8'});
                 writeFileSync(file_path, data);
-            }, 1000)
+            }, 1000);
         });
     }
 
@@ -451,14 +440,14 @@ export class ConchFile {
 
     // 植入路由代码
     weaveRouter(base_app, folderPath, pageName, pageNameUpper) {
-        let str_router = this.templateBusiness.getRouterStr(folderPath, pageName, pageNameUpper);
-        let compUrl = base_app + '/app.routing.ts';
-        let tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
+        const str_router = this.templateBusiness.getRouterStr(folderPath, pageName, pageNameUpper);
+        const compUrl = base_app + '/app.routing.ts';
+        const tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
 
-        let readStream = createReadStream(compUrl);
-        let writeStream = createWriteStream(tmp_path);
+        const readStream = createReadStream(compUrl);
+        const writeStream = createWriteStream(tmp_path);
 
-        let readLine = createInterface({
+        const readLine = createInterface({
             input: readStream,
             output: writeStream
         });
@@ -478,21 +467,21 @@ export class ConchFile {
 
         readLine.on('close', () => {
             setTimeout(() => {
-                let data = readFileSync(tmp_path, {encoding: 'utf-8'});
+                const data = readFileSync(tmp_path, {encoding: 'utf-8'});
                 writeFileSync(compUrl, data);
-            }, 1000)
+            }, 1000);
         });
     }
 
     // 删除路由,菜单代码
     removeItemScript(filePath, conchId) {
 
-        let tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
+        const tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
 
-        let readStream = createReadStream(filePath);
-        let writeStream = createWriteStream(tmp_path);
+        const readStream = createReadStream(filePath);
+        const writeStream = createWriteStream(tmp_path);
 
-        let readLine = createInterface({
+        const readLine = createInterface({
             input: readStream,
             output: writeStream
         });
@@ -509,9 +498,9 @@ export class ConchFile {
 
         readLine.on('close', () => {
             setTimeout(() => {
-                let data = readFileSync(tmp_path, {encoding: 'utf-8'});
+                const data = readFileSync(tmp_path, {encoding: 'utf-8'});
                 writeFileSync(filePath, data);
-            }, 1000)
+            }, 1000);
         });
 
         writeStream.on('end', () => {
@@ -523,16 +512,16 @@ export class ConchFile {
     // 植入菜单代码
     weaveMenu(base_app, folderPath, pageName, pageNameUpper, page_desc) {
 
-        let menuName = page_desc ? (page_desc + ` (${pageName})`) : pageName;
+        const menuName = page_desc ? (page_desc + ` (${pageName})`) : pageName;
 
-        let str_menu = this.templateBusiness.getMenuStr(folderPath, pageName, menuName);
-        let compUrl = base_app + '/framework/menu-panel/menu-panel.component.ts';
-        let tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
+        const str_menu = this.templateBusiness.getMenuStr(folderPath, pageName, menuName);
+        const compUrl = base_app + '/framework/menu-panel/menu-panel.component.ts';
+        const tmp_path = this.const.runtime_tmp_path + '/' + this.const.guid() + '.tmp';
 
-        let readStream = createReadStream(compUrl);
-        let writeStream = createWriteStream(tmp_path);
+        const readStream = createReadStream(compUrl);
+        const writeStream = createWriteStream(tmp_path);
 
-        let readLine = createInterface({
+        const readLine = createInterface({
             input: readStream,
             output: writeStream
         });
@@ -552,9 +541,9 @@ export class ConchFile {
 
         readLine.on('close', () => {
             setTimeout(() => {
-                let data = readFileSync(tmp_path, {encoding: 'utf-8'});
+                const data = readFileSync(tmp_path, {encoding: 'utf-8'});
                 writeFileSync(compUrl, data);
-            }, 1000)
+            }, 1000);
         });
     }
 

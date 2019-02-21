@@ -1,7 +1,0 @@
-{
-    "id": 4,
-    "model_name": "用户表单",
-    "model_code": "m_004",
-    "model_type": "form",
-    "model_data": "{\"formArray\":[{\"field\":\"name\",\"desc\":\"人群名称\",\"type\":\"normal\"},{\"field\":\"source\",\"desc\":\"名称来源\",\"type\":\"normal\"},{\"field\":\"status\",\"desc\":\"状态\",\"type\":\"normal\"},{\"field\":\"calcStatus\",\"desc\":\"计算状态\",\"type\":\"normal\"},{\"field\":\"creator\",\"desc\":\"创建人\",\"type\":\"normal\"},{\"field\":\"createTime\",\"desc\":\"创建时间\",\"type\":\"normal\"}]}"
-}

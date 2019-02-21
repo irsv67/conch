@@ -1,7 +1,0 @@
-{
-    "id": 11,
-    "model_name": "业务预警",
-    "model_code": "m_011",
-    "model_type": "table",
-    "model_data": "{\r\n    \"listArray\": [\r\n        {\r\n            \"field\": \"alarmName\",\r\n            \"desc\": \"规则名称\",\r\n            \"type\": \"normal\"\r\n        },\r\n        {\r\n            \"field\": \"alarmType\",\r\n            \"desc\": \"预警类别\",\r\n            \"type\": \"normal\"\r\n        },\r\n        {\r\n            \"field\": \"updateTime\",\r\n            \"desc\": \"更新时间\",\r\n            \"type\": \"normal\"\r\n        },\r\n        {\r\n            \"field\": \"creator\",\r\n            \"desc\": \"创建人\",\r\n            \"type\": \"normal\"\r\n        },\r\n        {\r\n            \"field\": \"effectStatus\",\r\n            \"desc\": \"状态\",\r\n            \"type\": \"normal\"\r\n        },\r\n        {\r\n            \"field\": \"description\",\r\n            \"desc\": \"描述\",\r\n            \"type\": \"normal\"\r\n        }\r\n    ]\r\n}"
-}

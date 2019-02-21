@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    //    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "module": "es2015",
@@ -17,5 +17,9 @@
       "es2017",
       "dom"
     ]
-  }
+  },
+  "exclude": [
+    "./src/**/*",
+    "./e2e/**/*"
+  ]
 }

@@ -1,17 +1,6 @@
-import {createConnection} from "mysql";
-import {
-    createReadStream,
-    createWriteStream,
-    existsSync,
-    mkdirSync,
-    readdirSync,
-    readFileSync,
-    renameSync,
-    statSync,
-    unlinkSync,
-    writeFileSync
-} from "fs";
-import {Const} from "./const";
+import {createConnection} from 'mysql';
+import {existsSync, readdirSync, readFileSync} from 'fs';
+import {Const} from './const';
 
 export class ConchDao {
 
@@ -42,14 +31,14 @@ export class ConchDao {
                 } else {
                     resolve(rows);
                 }
-            })
+            });
         });
     }
 
     public getCompMap() {
-        let rows = this.getDataJsonByName('ud_comp');
+        const rows = this.getDataJsonByName('ud_comp');
 
-        let compMap = {};
+        const compMap = {};
         for (let i = 0; i < rows.length; i++) {
             const obj = rows[i];
             compMap[obj.comp_code] = obj;
@@ -60,15 +49,15 @@ export class ConchDao {
     getDataJsonByName(tableName) {
         const that = this;
 
-        let rows = [];
+        const rows = [];
 
-        let tmpPath = this.const.resource_base + '/data_table/' + tableName;
-        let dir = readdirSync(tmpPath);
+        const tmpPath = this.const.resource_base + '/data_table/' + tableName;
+        const dir = readdirSync(tmpPath);
         dir.forEach(function (item) {
-            let filePath = tmpPath + '/' + item;
+            const filePath = tmpPath + '/' + item;
             let fileObj = {};
             if (existsSync(filePath)) {
-                let json_data = readFileSync(filePath, {encoding: 'utf-8'});
+                const json_data = readFileSync(filePath, {encoding: 'utf-8'});
                 fileObj = JSON.parse(json_data);
                 rows.push(fileObj);
             }
@@ -79,15 +68,15 @@ export class ConchDao {
     getDataListFromHome(tableName) {
         const that = this;
 
-        let rows = [];
+        const rows = [];
 
-        let tmpPath = this.const.home_path + '/' + tableName;
-        let dir = readdirSync(tmpPath);
+        const tmpPath = this.const.home_path + '/' + tableName;
+        const dir = readdirSync(tmpPath);
         dir.forEach(function (item) {
-            let filePath = tmpPath + '/' + item;
+            const filePath = tmpPath + '/' + item;
             let fileObj = {};
             if (existsSync(filePath)) {
-                let json_data = readFileSync(filePath, {encoding: 'utf-8'});
+                const json_data = readFileSync(filePath, {encoding: 'utf-8'});
                 fileObj = JSON.parse(json_data);
                 rows.push(fileObj);
             }
