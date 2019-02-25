@@ -1,15 +1,14 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
-import {StageService} from "../stage.service";
-import {StageCommService} from "../stage-comm.service";
-import {NzMessageService} from "ng-zorro-antd";
+import {ChangeDetectorRef, Component, OnInit, NgZone} from '@angular/core';
+import {NzMessageService} from 'ng-zorro-antd';
+import {StageService} from '../stage/stage.service';
+import {StageCommService} from '../stage/stage-comm.service';
 
 @Component({
-    selector: 'app-router-panel',
-    templateUrl: './router-panel.component.html',
-    styleUrls: ['./router-panel.component.css']
+    selector: 'app-module-tree',
+    templateUrl: './module-tree.component.html',
+    styleUrls: ['./module-tree.component.css']
 })
-export class RouterPanelComponent implements OnInit {
-
+export class ModuleTreeComponent implements OnInit {
     ipcRenderer: any; // 与electron通信
     shell: any; // 与electron通信
 
@@ -20,20 +19,14 @@ export class RouterPanelComponent implements OnInit {
                 private zone: NgZone) {
 
         const that = this;
-        let electron = window['electron'];
+        const electron = window['electron'];
         this.ipcRenderer = electron.ipcRenderer;
         this.shell = electron.shell;
-        this.scs.clp$.subscribe((msg: any) => {
-            if (msg == 'router-module') {
-                that.scanRouting();
-            }
-        });
     }
 
     ngOnInit() {
-
         const that = this;
-
+        that.scanRouting();
     }
 
     scanRouting() {
@@ -53,7 +46,7 @@ export class RouterPanelComponent implements OnInit {
     scanSubComp(event) {
         const that = this;
 
-        let paramObj = {
+        const paramObj = {
             component_name: event.node.key,
             root_path: this.scs.curProject.root_path
         };

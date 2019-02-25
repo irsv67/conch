@@ -1,35 +1,3 @@
-.win-title {
-    font-size: 14px;
-    color: #FFFFFF;
-
-    height: 25px;
-    background: #2185F0;
-    line-height: 25px;
-    text-align: center;
-}
-
-.header-icon {
-    float: left;
-    width: 140px;
-    height: 40px;
-    padding-left: 10px;
-}
-
-.header-btn {
-    float: left;
-    color: #FFFFFF;
-    margin-right: 30px;
-    font-size: 14px;
-    cursor: pointer;
-    height: 40px;
-    line-height: 40px;
-    padding: 0 8px;
-}
-
-.header-btn.active {
-    border-bottom: #2de2c5 3px solid;
-}
-
 /deep/ .dom-list {
     display: flex;
     flex-wrap: wrap;

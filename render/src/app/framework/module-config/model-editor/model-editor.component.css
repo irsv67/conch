@@ -1,9 +1,0 @@
-.list-item {
-    padding: 8px;
-    border-bottom: #cccccc 1px solid;
-    cursor: pointer;
-}
-
-.list-item:hover {
-    background: #F8F8F9;
-}

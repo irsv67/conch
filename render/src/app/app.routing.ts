@@ -7,17 +7,18 @@ const appRoutes: Routes = [
         redirectTo: 'stage',
         pathMatch: 'full'
     },
-
-    // ================include_start================
-    {
-        path: 'first-comp',
-        loadChildren: './framework/first-comp/first-comp.module#FirstCompModule'
-    },
     {
         path: 'stage',
         loadChildren: './stage/stage.module#StageModule'
     },
-    // ================include_end================
+    {
+        path: 'comp-list',
+        loadChildren: './comp-list/comp-list.module#CompListModule'
+    },
+    {
+        path: 'module-config',
+        loadChildren: './module-tree/module-tree.module#ModuleTreeModule'
+    },
 
 ];
 

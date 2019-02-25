@@ -10,7 +10,6 @@ import {ComponentPanelComponent} from './component-panel/component-panel.compone
 import {ToolbarPanelComponent} from './toolbar-panel/toolbar-panel.component';
 import {CenterPanelComponent} from './center-panel/center-panel.component';
 import {BlockPanelComponent} from './block-panel/block-panel.component';
-import {RouterPanelComponent} from './router-panel/router-panel.component';
 
 import {TransmitterDirective} from './common/transmitter.directive';
 import {ReceptorDirective} from './common/receptor.directive';
@@ -23,8 +22,8 @@ import {RecuTemplateComponent} from './common/recu-template/recu-template.compon
     imports: [
         CommonModule,
         FormsModule,
-        StageRoutingModule,
         NgZorroAntdModule,
+        StageRoutingModule,
         CompKeeperModule
     ],
     declarations: [
@@ -37,7 +36,6 @@ import {RecuTemplateComponent} from './common/recu-template/recu-template.compon
         ToolbarPanelComponent,
         CenterPanelComponent,
         BlockPanelComponent,
-        RouterPanelComponent,
         TemplateKeeperComponent,
         RecuTemplateComponent
     ]

@@ -46,12 +46,6 @@ export class MessageMain {
 
         const that = this;
 
-        ipcMain.on('ipc-sync-table', (event, paramObj) => {
-            that.stageBusiness.syncTable(paramObj);
-            event.sender.send('ipc-sync-table-back', {
-                status: 'success',
-            });
-        });
         // =================================
 
         ipcMain.on('ipc-scan-sub-comp', (event, projectObj) => {

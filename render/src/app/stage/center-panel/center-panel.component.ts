@@ -74,8 +74,8 @@ export class CenterPanelComponent implements OnInit {
             if (data.msg == 'msg-choose-project') {
                 that.scs.mainPanelStatus = 'project-main';
 
-                that.changeDetectorRef.markForCheck();
-                that.changeDetectorRef.detectChanges();
+                // that.changeDetectorRef.markForCheck();
+                // that.changeDetectorRef.detectChanges();
             } else if (data.msg == 'msg-choose-page') {
                 let pageObj = data.paramObj;
 
@@ -95,8 +95,8 @@ export class CenterPanelComponent implements OnInit {
 
                 that.scs.curDataConch.conchId = '';
 
-                that.changeDetectorRef.markForCheck();
-                that.changeDetectorRef.detectChanges();
+                // that.changeDetectorRef.markForCheck();
+                // that.changeDetectorRef.detectChanges();
             }
         });
 

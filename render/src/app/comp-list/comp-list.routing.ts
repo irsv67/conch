@@ -1,15 +1,15 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {FirstCompComponent} from './first-comp.component';
+import {CompListComponent} from './comp-list.component';
 
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'first-comp',
+        redirectTo: 'comp-list',
         pathMatch: 'full'
     }, {
-        path: 'first-comp',
-        component: FirstCompComponent,
+        path: 'comp-list',
+        component: CompListComponent,
     }
 ];
 
@@ -21,6 +21,6 @@ const appRoutes: Routes = [
         RouterModule
     ]
 })
-export class FirstCompRoutingModule {
+export class CompListRoutingModule {
 
 }

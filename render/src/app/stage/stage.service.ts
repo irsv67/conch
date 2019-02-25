@@ -11,11 +11,6 @@ export class StageService {
     constructor(private http: HttpClient) {
     }
 
-    syncTable(paramObj) {
-        const configUrl: any = this.base_url + '/express/syncTable';
-        return this.http.post(configUrl, paramObj);
-    }
-
     getResourcePath() {
         const configUrl: any = this.base_url + '/express/getResourcePath';
         return this.http.post(configUrl, {});

@@ -1,0 +1,49 @@
+<div>
+  <div class="win-title">
+    <span>TD-可视化开发工具</span>
+    <div style="float: right;">
+            <span (click)="minWindow()" style="margin-right: 16px; font-size: 16px; color: #ffffff; cursor: pointer;">
+                <i class="anticon anticon-minus"></i>
+            </span>
+      <span *ngIf="false" (click)="maxWindow()" style="margin-right: 16px; font-size: 16px; color: #ffffff; cursor: pointer;">
+                <i class="anticon anticon-laptop"></i>
+            </span>
+      <span (click)="closeWindow()" style="margin-right: 16px; font-size: 16px; color: #ffffff; cursor: pointer;">
+                <i class="anticon anticon-close"></i>
+            </span>
+    </div>
+  </div>
+  <div style="background: #2185F0; height: 40px;">
+    <div class="header-icon">
+      <img src="./assets/favicon.ico"/>
+    </div>
+
+    <div class="header-btn" (click)="changeHeaderStatus('project')" [ngClass]="{'active': headerTabStatus == 'project'}">
+      <i class="anticon anticon-bars" style="margin-right: 4px;"></i>
+      项目
+    </div>
+    <div *ngIf="false" class="header-btn" (click)="changeHeaderStatus('template')" [ngClass]="{'active': headerTabStatus == 'template'}">
+      <i class="anticon anticon-credit-card" style="margin-right: 4px;"></i>
+      模板
+    </div>
+    <div class="header-btn" (click)="changeHeaderStatus('component')" [ngClass]="{'active': headerTabStatus == 'component'}">
+      <i class="anticon anticon-book" style="margin-right: 4px;"></i>
+      组件
+    </div>
+    <div *ngIf="false" class="header-btn" (click)="changeHeaderStatus('block')" [ngClass]="{'active': headerTabStatus == 'block'}">
+      <i class="anticon anticon-calendar" style="margin-right: 4px;"></i>
+      区块
+    </div>
+    <div class="header-btn" (click)="changeHeaderStatus('module-tree')" [ngClass]="{'active': headerTabStatus == 'module-tree'}">
+      <i class="anticon anticon-calendar" style="margin-right: 4px;"></i>
+      组件结构
+    </div>
+
+    <div style="float: right; height: 40px; line-height: 40px;">
+      <nz-switch [(ngModel)]="controlPanel" nzSize="small" style="margin-right: 16px;"></nz-switch>
+    </div>
+    <div [ngClass]="{'c-hide': !controlPanel}" style="float: right; height: 40px; line-height: 40px;">
+      <span (click)="getResourcePath()" style="margin-right: 8px; cursor: pointer; color: #FFFFFF;">资源目录</span>
+    </div>
+  </div>
+</div>

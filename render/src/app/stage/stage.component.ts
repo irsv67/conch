@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, NgZone, OnInit, ViewChild} from '@angular/core';
-import {StageService} from "./stage.service";
-import {StageCommService} from "./stage-comm.service";
-import {NzDropdownService, NzMenuItemDirective, NzMessageService} from "ng-zorro-antd";
+import {StageService} from './stage.service';
+import {StageCommService} from './stage-comm.service';
+import {NzDropdownService, NzMenuItemDirective, NzMessageService} from 'ng-zorro-antd';
 
 @Component({
     selector: 'app-stage',
@@ -18,9 +18,7 @@ export class StageComponent implements OnInit {
     ipcRenderer: any; // 与electron通信
     shell: any; // 与electron通信
 
-    controlPanel: any = false;// 控制台开关
-
-    headerTabStatus: any = 'project'; // project, template, component, block
+    controlPanel: any = false; // 控制台开关
 
     compTypeTree: any = [{
         title: '组件分类',
@@ -67,7 +65,7 @@ export class StageComponent implements OnInit {
                 private zone: NgZone) {
 
         const that = this;
-        let electron = window['electron'];
+        const electron = window['electron'];
         this.ipcRenderer = electron.ipcRenderer;
         this.shell = electron.shell;
 
@@ -80,7 +78,7 @@ export class StageComponent implements OnInit {
         this.scs.cmc$.subscribe((data: any) => {
 
             if (data.msg == 'msg-choose-conch') {
-                let conchObj = data.paramObj;
+                const conchObj = data.paramObj;
                 that.setTreeNodeRecu(that.treeCom.nzNodes[0], conchObj.conchId);
             }
         });
@@ -107,15 +105,15 @@ export class StageComponent implements OnInit {
 
     chooseSchemaNode(event: any) {
 
-        let key = event.node.key;
+        const key = event.node.key;
 
-        let tmpCompCode = event.node.origin.comp_code;
+        const tmpCompCode = event.node.origin.comp_code;
         let isLayout = false;
         if (tmpCompCode == 'LayoutRow' || tmpCompCode == 'LayoutColumn') {
             isLayout = true;
         }
 
-        let conchObj = {
+        const conchObj = {
             conchId: key,
             isLayout: isLayout
         };
@@ -138,7 +136,7 @@ export class StageComponent implements OnInit {
 
         that.scs.curPage.page_schema = JSON.stringify(that.scs.pageSchema[0]);
 
-        let pageVO = JSON.parse(JSON.stringify(that.scs.curPage));
+        const pageVO = JSON.parse(JSON.stringify(that.scs.curPage));
         pageVO.base_app = this.scs.curProject.root_path + '/src/app';
         pageVO.root_path = this.scs.curProject.root_path;
 
@@ -168,8 +166,8 @@ export class StageComponent implements OnInit {
 
     // 在图层中拖动响应方法
     dropInPageSchema(event) {
-        let curKey = event.dragNode.key;
-        let parentItem = this.scs.schemaMapPage[event.dragNode.origin.parentId];
+        const curKey = event.dragNode.key;
+        const parentItem = this.scs.schemaMapPage[event.dragNode.origin.parentId];
 
         let curIndex;
         for (let i = 0; i < parentItem.children.length; i++) {
@@ -187,56 +185,6 @@ export class StageComponent implements OnInit {
         this.scs.cmEmitter('msg-refresh-root-dom');
     }
 
-    queryCompDomByType(type: any) {
-        const that = this;
-        if (type == 'all') {
-            type = null;
-        }
-
-        this.scs.ipcRequest('ipc-get-comp-dom-list', type, (event: any, response: any) => {
-            console.log('ipc-get-comp-dom-list-bak');
-            if (response) {
-                document.getElementById('comp-view-panel').innerHTML = response.data;
-            }
-        });
-    }
-
-    changeHeaderStatus(type: any) {
-        this.headerTabStatus = type;
-        if (type == 'component') {
-            this.queryCompDomByType('all');
-        } else if (type == 'model-editor') {
-            this.scs.cmEmitter('msg-get-model-tree');
-        }
-    }
-
-    chooseCompTypeNode(event: any) {
-        this.queryCompDomByType(event.node.key);
-    }
-
-    syncTable(tableName) {
-
-        const that = this;
-
-        let paramObj = {
-            table_name: tableName
-        };
-
-        this.scs.ipcRequest('ipc-sync-table', paramObj, (event: any, response: any) => {
-            console.log('ipc-sync-table-bak');
-            if (response) {
-                that.zone.run(() => {
-                    that.message.create('success', response.status);
-                });
-            }
-        });
-
-//        this.stageService.syncTable(paramObj).subscribe((response: any) => {
-//            if (response) {
-//            }
-//        });
-    }
-
     getResourcePath() {
 
         const that = this;
@@ -247,7 +195,7 @@ export class StageComponent implements OnInit {
                     let str = '';
                     for (let i = 0; i < response.data.list.length; i++) {
                         const listElement = response.data.list[i];
-                        str += listElement + '<br/>'
+                        str += listElement + '<br/>';
                     }
                     that.message.create('success', str);
                 });
@@ -257,7 +205,7 @@ export class StageComponent implements OnInit {
 
     dropDownClick(event: NzMenuItemDirective): void {
 
-        let command = event['hostElement'].nativeElement.innerText;
+        const command = event['hostElement'].nativeElement.innerText;
 
         if (command == '删除') {
             this.scs.cmEmitter('msg-remove-item');

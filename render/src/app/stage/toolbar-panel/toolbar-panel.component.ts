@@ -57,11 +57,7 @@ export class ToolbarPanelComponent implements OnInit {
                     console.log('ipc-check-project-bak');
                     if (response.status == 'success') {
                         that.scs.isConch = response.data.isConch;
-                        if (that.scs.isConch) {
-                            that.scs.leftPanelActive = 'project';
-                        } else {
-                            that.scs.leftPanelActive = 'router-module';
-                        }
+                        that.scs.leftPanelActive = 'project';
                         if (response.data.has_modules) {
 //                        setTimeout(function () {
 //                            that.buildWatch();
