@@ -1,9 +1,9 @@
-<table class="main-table" style="width: 100%; height: 100%;">
+<table class="main-table" style="width: 100%;height: calc(100% - 65px);">
     <tr style="vertical-align: top;">
-        <td style="padding: 0; width: 360px; background-color: #F8F8F9;">
-            <div style="height: 360px; width: 360px;">
+        <td style="padding: 0; width: 500px; background-color: #F8F8F9; border-right: #cccccc 1px solid;">
+            <div>
                 <div style="padding: 0 4px;">
-                    <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">路由结构</div>
+                    <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">一级结构</div>
                 </div>
                 <div class="tree-base" style="padding: 4px 8px; height: calc(100% - 40px); overflow: auto;">
                     <nz-tree #treeCom
@@ -14,10 +14,11 @@
                 </div>
             </div>
         </td>
-    </tr>
-    <tr style="">
-        <td style="padding: 0; width: 360px; background-color: #F8F8F9;">
-            <div style="height: 360px; width: 360px; border-top: #cccccc 1px solid;">
+        <td style="padding: 0; width: 500px; background-color: #F8F8F9; border-right: #cccccc 1px solid;">
+            <div>
+                <div style="padding: 0 4px;">
+                    <div style="padding: 8px; height: 40px; border-bottom: #cccccc 2px solid;">二级结构</div>
+                </div>
                 <div class="tree-base" style="padding: 4px 8px; height: calc(100% - 40px); overflow: auto;">
                     <nz-tree #treeCom2
                              [nzData]="scs.compSchema"
@@ -25,6 +26,9 @@
                     </nz-tree>
                 </div>
             </div>
+        </td>
+        <td style="background-color: #F8F8F9; border-right: #cccccc 1px solid;">
+
         </td>
     </tr>
 </table>

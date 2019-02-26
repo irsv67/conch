@@ -7,7 +7,7 @@
     "watch-frontend": "cd render && ng build --watch",
     "watch-backend": "webpack --watch",
     "start-ele": "electron ./dist",
-    "dev-ele": "electron --inspect-brk=5858 .",
+    "dev-ele": "electron ./dist --inspect-brk=5858 .",
     "package": "electron-packager ./dist conch --platform=win32 --arch=x64 --out ../OutApp-win --electron-version 3.0.8 --overwrite --icon=res/favicon.ico",
     "package-mac": "electron-packager ./dist conch --platform=darwin --arch=x64 --out ../OutApp-mac --electron-version 3.0.8 --overwrite --icon=res/favicon.icns",
     "package-all": "electron-packager ./dist conch --all --out ../OutApp-all --electron-version 3.0.8 --overwrite --icon=res/favicon.ico"

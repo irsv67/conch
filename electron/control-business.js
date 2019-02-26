@@ -5,6 +5,8 @@ import { GenFileService } from './const/gen-file.service';
 import { ConchDao } from './const/conch-dao';
 import { ConchFile } from './service/conch-file';
 import { Const } from './const/const';
+import * as _ts from 'typescript';
+import { Parser } from './const/parser';
 var ControlBusiness = /** @class */ (function () {
     function ControlBusiness() {
         this.conchDao = new ConchDao();
@@ -13,6 +15,7 @@ var ControlBusiness = /** @class */ (function () {
         this.templateBusiness = new TemplateBusiness();
         this.genFileService = new GenFileService();
         this.const = new Const();
+        this.parser = new Parser();
     }
     ControlBusiness.prototype.scanSubComp = function (projectObj) {
         var projectConchPath = projectObj.root_path + '/_con_pro';
@@ -91,7 +94,7 @@ var ControlBusiness = /** @class */ (function () {
             writeFileSync(projectConchPath + '/s_moduleMap.json', JSON.stringify(moduleMap));
             writeFileSync(projectConchPath + '/s_routingMap.json', JSON.stringify(routingMap));
             writeFileSync(projectConchPath + '/s_htmlMap.json', JSON.stringify(htmlMap));
-        }, 3000);
+        }, 15000);
     };
     ControlBusiness.prototype.getCompDomList = function (compType) {
         var compRows = this.conchDao.getDataJsonByName('ud_comp');
@@ -156,7 +159,7 @@ var ControlBusiness = /** @class */ (function () {
             }
         }
     };
-    ControlBusiness.prototype.scanProjectAllRecu = function (filePath, subPath, moduleMap, routingMap, htmlMap) {
+    ControlBusiness.prototype.scanProjectAllRecu2 = function (filePath, subPath, moduleMap, routingMap, htmlMap) {
         var that = this;
         var files = [];
         if (existsSync(filePath)) {
@@ -164,7 +167,7 @@ var ControlBusiness = /** @class */ (function () {
             files.forEach(function (file, index) {
                 var curPath = filePath + '/' + file;
                 if (statSync(curPath).isDirectory()) {
-                    that.scanProjectAllRecu(curPath, subPath + '/' + file, moduleMap, routingMap, htmlMap);
+                    that.scanProjectAllRecu2(curPath, subPath + '/' + file, moduleMap, routingMap, htmlMap);
                 }
                 else if (file.indexOf('module.ts') != -1 || file.indexOf('routing.ts') != -1) {
                     var tmpMap_1 = {};
@@ -274,6 +277,120 @@ var ControlBusiness = /** @class */ (function () {
                 }
             });
         }
+    };
+    ControlBusiness.prototype.scanProjectAllRecu = function (filePath, subPath, moduleMap, routingMap, htmlMap) {
+        var that = this;
+        var files = [];
+        if (existsSync(filePath)) {
+            files = readdirSync(filePath);
+            files.forEach(function (file, index) {
+                var curPath = filePath + '/' + file;
+                if (statSync(curPath).isDirectory()) {
+                    that.scanProjectAllRecu(curPath, subPath + '/' + file, moduleMap, routingMap, htmlMap);
+                }
+                else if (file.endsWith('.ts')) {
+                    var data = readFileSync(curPath, { encoding: 'utf-8' });
+                    var sourceFile = that.parser.parse(_ts, data, {
+                        experimentalAsyncFunctions: true,
+                        experimentalDecorators: true,
+                        jsx: true
+                    });
+                    var curName_2 = '';
+                    var tmpMap_2 = {};
+                    var tmpRoutingList_1 = [];
+                    sourceFile.statements.forEach(function (entry) {
+                        // console.log(entry.kind);
+                        // VariableStatement
+                        if (entry.kind === 213) {
+                            console.log('VariableStatement(213):' + entry.kind);
+                            if (entry.declarationList && entry.declarationList.declarations) {
+                                entry.declarationList.declarations.forEach(function (declaration) {
+                                    if (declaration.type && declaration.type.typeName
+                                        && declaration.type.typeName.escapedText === 'Routes') {
+                                        console.log('TypeReference(161):' + 'Routes');
+                                        console.log('name(231):' + declaration.name.escapedText);
+                                        var elements = declaration.initializer.elements;
+                                        that.parseRoutingChildRecu(elements, tmpRoutingList_1);
+                                    }
+                                });
+                            }
+                        }
+                        // ImportDeclaration
+                        if (entry.kind === 243 && entry.moduleSpecifier.text.startsWith('.')) {
+                            console.log('ImportDeclaration(243):' + entry.moduleSpecifier.text);
+                            if (entry.importClause && entry.importClause.namedBindings && entry.importClause.namedBindings.elements) {
+                                var elements = entry.importClause.namedBindings.elements;
+                                elements.forEach(function (element) {
+                                    if (element.name) {
+                                        console.log('name:' + element.name.escapedText);
+                                        tmpMap_2[element.name.escapedText] = entry.moduleSpecifier.text;
+                                    }
+                                });
+                            }
+                        }
+                        // ClassDeclaration
+                        if (entry.kind === 234) {
+                            console.log('ClassDeclaration(234):' + entry.name.escapedText);
+                            curName_2 = entry.name.escapedText;
+                            if (entry.decorators && entry.decorators.length > 0) {
+                                console.log('[');
+                                entry.decorators.forEach(function (decorator) {
+                                    console.log('\t{');
+                                    console.log('decorator:' + decorator.kind);
+                                    // CallExpression
+                                    if (decorator.expression.kind === 186) {
+                                        var decoItem = decorator.expression;
+                                        console.log('CallExpression(186):' + decoItem.expression.escapedText);
+                                    }
+                                    console.log('\t}');
+                                });
+                                console.log(']');
+                            }
+                        }
+                    });
+                    moduleMap[curName_2] = tmpMap_2;
+                    if (tmpRoutingList_1.length > 0) {
+                        routingMap[curName_2] = tmpRoutingList_1;
+                    }
+                }
+                else if (file.indexOf('component.html') != -1) {
+                    var data = readFileSync(curPath, { encoding: 'utf-8' });
+                    var $ = that.cheerio.load(data, {
+                        decodeEntities: false,
+                        _useHtmlParser2: true,
+                        lowerCaseAttributeNames: false
+                    });
+                    var root_dom = $.root();
+                    var childList = [];
+                    var rootDom = root_dom[0];
+                    that.getHtmlCompRecu(rootDom, childList);
+                    var fileNew = file.split('.')[0];
+                    var nameAll = that.getBigNameBySmall(fileNew);
+                    nameAll += 'Component';
+                    htmlMap[nameAll] = childList;
+                }
+            });
+        }
+    };
+    ControlBusiness.prototype.parseRoutingChildRecu = function (elements, tmpRoutingList) {
+        var that = this;
+        elements.forEach(function (element) {
+            // ObjectLiteralExpression
+            if (element.kind === 183) {
+                var elementObj_1 = {};
+                element.properties.forEach(function (prop) {
+                    if (prop.name.escapedText === 'children') {
+                        elementObj_1.children = [];
+                        that.parseRoutingChildRecu(prop.initializer.elements, elementObj_1.children);
+                    }
+                    else {
+                        elementObj_1[prop.name.escapedText] = prop.initializer.text;
+                        console.log(prop.name.escapedText + ':' + prop.initializer.text);
+                    }
+                });
+                tmpRoutingList.push(elementObj_1);
+            }
+        });
     };
     ControlBusiness.prototype.getHtmlCompRecu = function (rootDom, childList) {
         for (var i = 0; i < rootDom.children.length; i++) {

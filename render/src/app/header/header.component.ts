@@ -11,6 +11,9 @@ import {Router, ActivatedRoute} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+    ipcRenderer: any; // 与electron通信
+    shell: any; // 与electron通信
+
     headerTabStatus: any = 'project'; // project, template, component, block
 
     constructor(private router: Router,
@@ -20,6 +23,12 @@ export class HeaderComponent implements OnInit {
                 private changeDetectorRef: ChangeDetectorRef,
                 private nzDropdownService: NzDropdownService,
                 private zone: NgZone) {
+
+        const that = this;
+        const electron = window['electron'];
+        this.ipcRenderer = electron.ipcRenderer;
+        this.shell = electron.shell;
+
     }
 
     ngOnInit() {
@@ -34,6 +43,18 @@ export class HeaderComponent implements OnInit {
         } else if (type == 'module-tree') {
             this.router.navigate(['/module-config/module-tree', {}]);
         }
+    }
+
+    closeWindow() {
+        window.close();
+    }
+
+    minWindow() {
+        this.ipcRenderer.send('window-min');
+    }
+
+    maxWindow() {
+        this.ipcRenderer.send('window-max');
     }
 
 }

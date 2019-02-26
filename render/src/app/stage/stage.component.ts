@@ -152,18 +152,6 @@ export class StageComponent implements OnInit {
         });
     }
 
-    closeWindow() {
-        window.close();
-    }
-
-    minWindow() {
-        this.ipcRenderer.send('window-min');
-    }
-
-    maxWindow() {
-        this.ipcRenderer.send('window-max');
-    }
-
     // 在图层中拖动响应方法
     dropInPageSchema(event) {
         const curKey = event.dragNode.key;

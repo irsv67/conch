@@ -29,12 +29,6 @@ var MessageMain = /** @class */ (function () {
     }
     MessageMain.prototype.init = function () {
         var that = this;
-        ipcMain.on('ipc-sync-table', function (event, paramObj) {
-            that.stageBusiness.syncTable(paramObj);
-            event.sender.send('ipc-sync-table-back', {
-                status: 'success',
-            });
-        });
         // =================================
         ipcMain.on('ipc-scan-sub-comp', function (event, projectObj) {
             var treeData = that.controlBusiness.scanSubComp(projectObj);

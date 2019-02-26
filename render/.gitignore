@@ -1,5 +1,6 @@
 #mine
 .idea
+dist/out-tsc
 dist/conch
 dist/bundle.js
 

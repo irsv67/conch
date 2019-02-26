@@ -5,6 +5,8 @@ import {GenFileService} from './const/gen-file.service';
 import {ConchDao} from './const/conch-dao';
 import {ConchFile} from './service/conch-file';
 import {Const} from './const/const';
+import * as _ts from 'typescript';
+import {Parser} from './const/parser';
 
 export class ControlBusiness {
 
@@ -15,6 +17,7 @@ export class ControlBusiness {
     templateBusiness: TemplateBusiness;
     genFileService: GenFileService;
     const: Const;
+    parser: any;
 
     constructor() {
         this.conchDao = new ConchDao();
@@ -24,6 +27,8 @@ export class ControlBusiness {
         this.templateBusiness = new TemplateBusiness();
         this.genFileService = new GenFileService();
         this.const = new Const();
+
+        this.parser = new Parser();
     }
 
     scanSubComp(projectObj: any) {
@@ -131,7 +136,7 @@ export class ControlBusiness {
 
             writeFileSync(projectConchPath + '/s_htmlMap.json', JSON.stringify(htmlMap));
 
-        }, 3000);
+        }, 15000);
     }
 
     getCompDomList(compType: any) {
@@ -208,7 +213,7 @@ export class ControlBusiness {
         }
     }
 
-    scanProjectAllRecu(filePath, subPath, moduleMap, routingMap, htmlMap) {
+    scanProjectAllRecu2(filePath, subPath, moduleMap, routingMap, htmlMap) {
         const that = this;
 
         let files = [];
@@ -217,7 +222,7 @@ export class ControlBusiness {
             files.forEach(function (file: string, index) {
                 const curPath = filePath + '/' + file;
                 if (statSync(curPath).isDirectory()) {
-                    that.scanProjectAllRecu(curPath, subPath + '/' + file, moduleMap, routingMap, htmlMap);
+                    that.scanProjectAllRecu2(curPath, subPath + '/' + file, moduleMap, routingMap, htmlMap);
                 } else if (file.indexOf('module.ts') != -1 || file.indexOf('routing.ts') != -1) {
 
                     const tmpMap = {};
@@ -349,6 +354,143 @@ export class ControlBusiness {
                 }
             });
         }
+    }
+
+    scanProjectAllRecu(filePath, subPath, moduleMap, routingMap, htmlMap) {
+        const that = this;
+
+        let files = [];
+        if (existsSync(filePath)) {
+            files = readdirSync(filePath);
+            files.forEach(function (file: string, index) {
+                const curPath = filePath + '/' + file;
+                if (statSync(curPath).isDirectory()) {
+                    that.scanProjectAllRecu(curPath, subPath + '/' + file, moduleMap, routingMap, htmlMap);
+                } else if (file.endsWith('.ts')) {
+
+                    const data = readFileSync(curPath, {encoding: 'utf-8'});
+
+                    const sourceFile = that.parser.parse(_ts, data, {
+                        experimentalAsyncFunctions: true,
+                        experimentalDecorators: true,
+                        jsx: true
+                    });
+
+                    let curName = '';
+                    const tmpMap = {};
+                    const tmpRoutingList = [];
+
+                    sourceFile.statements.forEach((entry: any) => {
+                        // console.log(entry.kind);
+
+                        // VariableStatement
+                        if (entry.kind === 213) {
+                            console.log('VariableStatement(213):' + entry.kind);
+                            if (entry.declarationList && entry.declarationList.declarations) {
+                                entry.declarationList.declarations.forEach((declaration: any) => {
+                                    if (declaration.type && declaration.type.typeName
+                                        && declaration.type.typeName.escapedText === 'Routes') {
+                                        console.log('TypeReference(161):' + 'Routes');
+                                        console.log('name(231):' + declaration.name.escapedText);
+
+                                        const elements = declaration.initializer.elements;
+                                        that.parseRoutingChildRecu(elements, tmpRoutingList);
+                                    }
+                                });
+                            }
+
+                        }
+
+                        // ImportDeclaration
+                        if (entry.kind === 243 && entry.moduleSpecifier.text.startsWith('.')) {
+                            console.log('ImportDeclaration(243):' + entry.moduleSpecifier.text);
+                            if (entry.importClause && entry.importClause.namedBindings && entry.importClause.namedBindings.elements) {
+                                const elements: any = entry.importClause.namedBindings.elements;
+                                elements.forEach((element: any) => {
+                                    if (element.name) {
+                                        console.log('name:' + element.name.escapedText);
+                                        tmpMap[element.name.escapedText] = entry.moduleSpecifier.text;
+                                    }
+                                });
+                            }
+                        }
+                        // ClassDeclaration
+                        if (entry.kind === 234) {
+                            console.log('ClassDeclaration(234):' + entry.name.escapedText);
+                            curName = entry.name.escapedText;
+                            if (entry.decorators && entry.decorators.length > 0) {
+                                console.log('[');
+                                entry.decorators.forEach((decorator: any) => {
+                                    console.log('\t{');
+                                    console.log('decorator:' + decorator.kind);
+                                    // CallExpression
+                                    if (decorator.expression.kind === 186) {
+                                        const decoItem = decorator.expression;
+                                        console.log('CallExpression(186):' + decoItem.expression.escapedText);
+                                    }
+                                    console.log('\t}');
+                                });
+                                console.log(']');
+                            }
+                        }
+
+                    });
+
+                    moduleMap[curName] = tmpMap;
+                    if (tmpRoutingList.length > 0) {
+                        routingMap[curName] = tmpRoutingList;
+                    }
+
+                } else if (file.indexOf('component.html') != -1) {
+
+                    const data = readFileSync(curPath, {encoding: 'utf-8'});
+
+                    const $ = that.cheerio.load(data, {
+                        decodeEntities: false,
+                        _useHtmlParser2: true,
+                        lowerCaseAttributeNames: false
+                    });
+
+                    const root_dom = $.root();
+
+                    const childList = [];
+                    const rootDom = root_dom[0];
+                    that.getHtmlCompRecu(rootDom, childList);
+
+                    const fileNew = file.split('.')[0];
+                    let nameAll = that.getBigNameBySmall(fileNew);
+
+                    nameAll += 'Component';
+
+                    htmlMap[nameAll] = childList;
+                }
+            });
+        }
+    }
+
+    private parseRoutingChildRecu(elements, tmpRoutingList) {
+        const that = this;
+        elements.forEach((element: any) => {
+
+            // ObjectLiteralExpression
+            if (element.kind === 183) {
+
+                const elementObj: any = {};
+
+                element.properties.forEach((prop: any) => {
+                    if (prop.name.escapedText === 'children') {
+                        elementObj.children = [];
+                        that.parseRoutingChildRecu(prop.initializer.elements, elementObj.children);
+                    } else {
+                        elementObj[prop.name.escapedText] = prop.initializer.text;
+                        console.log(prop.name.escapedText + ':' + prop.initializer.text);
+                    }
+                });
+
+                tmpRoutingList.push(elementObj);
+
+            }
+        });
     }
 
     private getHtmlCompRecu(rootDom, childList) {
