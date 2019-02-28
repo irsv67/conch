@@ -68,8 +68,8 @@ export class ControlBusiness {
 
         const parentMap = {};
 
-        for (let i = 0; i < routingMap['AppRoutingModule'].length; i++) {
-            const parentItem = routingMap['AppRoutingModule'][i];
+        for (let i = 0; i < routingMap['root-routing'].length; i++) {
+            const parentItem = routingMap['root-routing'][i];
             if (parentItem.loadChildren) {
                 const key = parentItem.loadChildren.split('#')[1];
                 parentMap[key] = parentItem.path;
@@ -87,7 +87,7 @@ export class ControlBusiness {
         const routingList = [];
 
         for (const key in routingMap) {
-            if (key != 'AppRoutingModule') {
+            if (key !== 'root-routing') {
 
                 const keyChange = key.split('Routing')[0] + key.split('Routing')[1];
 
@@ -136,7 +136,7 @@ export class ControlBusiness {
 
             writeFileSync(projectConchPath + '/s_htmlMap.json', JSON.stringify(htmlMap));
 
-        }, 15000);
+        }, 3000);
     }
 
     getCompDomList(compType: any) {
@@ -146,7 +146,7 @@ export class ControlBusiness {
         if (compType) {
             for (let i = 0; i < compRows.length; i++) {
                 const compRow = compRows[i];
-                if (compRow.comp_type == compType) {
+                if (compRow.comp_type === compType) {
                     tmpRows.push(compRow);
                 }
             }
@@ -213,149 +213,6 @@ export class ControlBusiness {
         }
     }
 
-    scanProjectAllRecu2(filePath, subPath, moduleMap, routingMap, htmlMap) {
-        const that = this;
-
-        let files = [];
-        if (existsSync(filePath)) {
-            files = readdirSync(filePath);
-            files.forEach(function (file: string, index) {
-                const curPath = filePath + '/' + file;
-                if (statSync(curPath).isDirectory()) {
-                    that.scanProjectAllRecu2(curPath, subPath + '/' + file, moduleMap, routingMap, htmlMap);
-                } else if (file.indexOf('module.ts') != -1 || file.indexOf('routing.ts') != -1) {
-
-                    const tmpMap = {};
-                    let curName = '';
-
-                    let jsonStr = '';
-                    let inBlock = 0;
-
-                    const readStream = createReadStream(curPath);
-
-                    const readLine = createInterface({
-                        input: readStream,
-                    });
-
-                    readLine.on('line', (inLine) => {
-                        let line = inLine;
-
-                        if (line.indexOf('//') != -1) {
-                            line = line.substring(0, line.indexOf('//'));
-                        }
-
-                        if (file.indexOf('module.ts') != -1) {
-                            if (line.indexOf('import ') != -1 && line.indexOf(' from ') != -1) {
-
-                                let tmpStr: string = line;
-                                tmpStr = tmpStr.substr(line.indexOf('import ') + 6);
-
-                                const strArray = tmpStr.split(' from ');
-
-                                const key = strArray[0].trim();
-                                const value = strArray[1].trim();
-                                if (key.startsWith('{') && (value.startsWith('\'.') || value.startsWith('\".'))) {
-
-                                    const keyNew = key.substr(1, key.length - 2).trim();
-                                    const valueNew = value.substr(1, value.length - 3).trim();
-                                    if (valueNew.endsWith('.module') || valueNew.endsWith('.component')) {
-                                        tmpMap[keyNew] = valueNew;
-                                        console.log(keyNew + ' - ' + filePath + ' - ' + valueNew);
-                                    }
-                                }
-                            } else if (line.indexOf('export class') != -1) {
-
-                                const index1 = line.indexOf('export class');
-                                const index2 = line.indexOf('{');
-                                curName = line.substring(index1 + 12, index2).trim();
-
-                            }
-                        } else if (file.indexOf('routing.ts') != -1) {
-                            if (line.indexOf('Routes = [') != -1) {
-                                inBlock++;
-
-                                let tmpStr: string = line;
-                                tmpStr = tmpStr.substr(line.indexOf('Routes =') + 8);
-                                jsonStr += tmpStr;
-
-                            } else if (inBlock > 0 && line.indexOf(']') == -1 && line.indexOf('[') == -1) {
-                                if (line.indexOf('component:') != -1) {
-                                    let tmpStr = line.trim();
-                                    if (tmpStr.endsWith(',')) {
-                                        tmpStr = tmpStr.substr(0, tmpStr.length - 1);
-                                    }
-                                    const tmpArray = tmpStr.split(':');
-                                    jsonStr += (tmpArray[0] + ':\'' + tmpArray[1].trim() + '\',');
-                                } else {
-                                    jsonStr += line;
-                                }
-                            } else if (inBlock == 1 && line.indexOf(']') != -1) {
-                                inBlock--;
-
-                                let tmpStr: string = line;
-                                tmpStr = tmpStr.substr(0, line.indexOf(']') + 1);
-                                jsonStr += tmpStr;
-                            } else if (inBlock > 1 && line.indexOf(']') != -1) {
-                                inBlock--;
-
-                                const tmpStr: string = line;
-                                jsonStr += tmpStr;
-                            } else if (inBlock > 0 && line.indexOf('[') != -1) {
-                                inBlock++;
-
-                                const tmpStr: string = line;
-                                jsonStr += tmpStr;
-                            }
-
-                            if (line.indexOf('export class') != -1) {
-
-                                const index1 = line.indexOf('export class');
-                                const index2 = line.indexOf('{');
-                                curName = line.substring(index1 + 12, index2).trim();
-
-                            }
-                        }
-
-                    });
-
-                    readLine.on('close', () => {
-                        moduleMap[curName] = tmpMap;
-
-                        if (jsonStr) {
-                            console.log();
-                            console.log(jsonStr);
-                            console.log();
-                            const tmpRoutingList = eval('(' + jsonStr + ')');
-                            routingMap[curName] = tmpRoutingList;
-                        }
-                    });
-                } else if (file.indexOf('component.html') != -1) {
-
-                    const data = readFileSync(curPath, {encoding: 'utf-8'});
-
-                    const $ = that.cheerio.load(data, {
-                        decodeEntities: false,
-                        _useHtmlParser2: true,
-                        lowerCaseAttributeNames: false
-                    });
-
-                    const root_dom = $.root();
-
-                    const childList = [];
-                    const rootDom = root_dom[0];
-                    that.getHtmlCompRecu(rootDom, childList);
-
-                    const fileNew = file.split('.')[0];
-                    let nameAll = that.getBigNameBySmall(fileNew);
-
-                    nameAll += 'Component';
-
-                    htmlMap[nameAll] = childList;
-                }
-            });
-        }
-    }
-
     scanProjectAllRecu(filePath, subPath, moduleMap, routingMap, htmlMap) {
         const that = this;
 
@@ -377,6 +234,8 @@ export class ControlBusiness {
                     });
 
                     let curName = '';
+                    let curType = '';
+                    let rootRouting = false;
                     const tmpMap = {};
                     const tmpRoutingList = [];
 
@@ -427,6 +286,28 @@ export class ControlBusiness {
                                     if (decorator.expression.kind === 186) {
                                         const decoItem = decorator.expression;
                                         console.log('CallExpression(186):' + decoItem.expression.escapedText);
+                                        curType = decoItem.expression.escapedText;
+
+                                        if (decoItem.arguments && decoItem.arguments.length > 0
+                                            && decoItem.arguments[0].properties && decoItem.arguments[0].properties.length > 0) {
+                                            decoItem.arguments[0].properties.forEach((argumnet: any) => {
+                                                console.log(argumnet.name.escapedText + ':'
+                                                    + (argumnet.initializer.text || argumnet.initializer.elements));
+                                                // 识别 RouterModule.forRoot();
+                                                if (argumnet.name.escapedText === 'imports') {
+                                                    argumnet.initializer.elements.forEach((item: any) => {
+                                                        // CallExpression
+                                                        if (item.kind === 186) {
+                                                            const expression = item.expression;
+                                                            if (expression.name.escapedText === 'forRoot'
+                                                                && expression.expression.escapedText === 'RouterModule') {
+                                                                rootRouting = true;
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
                                     }
                                     console.log('\t}');
                                 });
@@ -436,12 +317,14 @@ export class ControlBusiness {
 
                     });
 
-                    moduleMap[curName] = tmpMap;
+                    if (curType === 'NgModule' || curType === 'Component' || curType === 'Injectable') {
+                        moduleMap[curName] = tmpMap;
+                    }
                     if (tmpRoutingList.length > 0) {
                         routingMap[curName] = tmpRoutingList;
                     }
 
-                } else if (file.indexOf('component.html') != -1) {
+                } else if (file.indexOf('component.html') !== -1) {
 
                     const data = readFileSync(curPath, {encoding: 'utf-8'});
 
@@ -496,14 +379,14 @@ export class ControlBusiness {
     private getHtmlCompRecu(rootDom, childList) {
         for (let i = 0; i < rootDom.children.length; i++) {
             const obj = rootDom.children[i];
-            if (obj.type == 'tag' && obj.name.startsWith('app-')) {
+            if (obj.type === 'tag' && obj.name.startsWith('app-')) {
                 console.log(obj.name);
 
                 const nameLit = obj.name.substring(4);
                 const nameBig = this.getBigNameBySmall(nameLit) + 'Component';
                 childList.push(nameBig);
 
-            } else if (obj.type == 'tag') {
+            } else if (obj.type === 'tag') {
                 this.getHtmlCompRecu(obj, childList);
             }
         }
@@ -526,9 +409,9 @@ export class ControlBusiness {
         for (let i = 0; i < compRows.length; i++) {
             const compRow = compRows[i];
 
-            if (is_big && compRow.comp_type != 'other') {
+            if (is_big && compRow.comp_type !== 'other') {
                 continue;
-            } else if (!is_big && compRow.comp_type == 'other') {
+            } else if (!is_big && compRow.comp_type === 'other') {
                 continue;
             }
 
